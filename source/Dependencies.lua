@@ -2,4 +2,7 @@
 
 --In library directory
 push = require 'library/push'
-class = require 'library/class'
+Class = require 'library/class'
+
+--In objects directory
+require 'source/objects/player'

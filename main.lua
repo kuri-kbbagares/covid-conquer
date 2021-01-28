@@ -6,13 +6,18 @@ require 'source/Dependencies' --All libraries that are require will be placed he
 WINDOW_HEIGHT = 720
 WINDOW_WIDTH = 840
 
-V_PUSH_HEIGHT = 480
-V_PUSH_WIDTH = 600
+V_PUSH_HEIGHT = 360
+V_PUSH_WIDTH = 480
+
+PLAYER_SPEED = 200
 
 --non constants
 click_count = 0
 
 function love.load()
+  Player = player(V_PUSH_WIDTH/2, V_PUSH_HEIGHT/2, 25, 25)
+  
+  math.randomseed(os.time())
   
   love.window.setTitle('Ikuu Zo')
   love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -26,7 +31,25 @@ function love.load()
 end
 
 function love.update(dt)
+  if love.keyboard.isDown('a') then
+    Player.dx = -PLAYER_SPEED
+  elseif love.keyboard.isDown('d') then
+    Player.dx = PLAYER_SPEED
+  else
+    Player.dx = 0
+  end
   
+  if love.keyboard.isDown('w') then
+    Player.dy = -PLAYER_SPEED
+  elseif love.keyboard.isDown('s') then
+    Player.dy = PLAYER_SPEED
+  else
+    Player.dy = 0
+  end
+  
+  
+  Player:update(dt)
+
 end
 
 function love.draw()
@@ -36,6 +59,8 @@ function love.draw()
   love.graphics.setColor(0, 0, 0, 1)
   displayClickCount(click_count)
   love.graphics.printf('Nandemonai ', 0, V_PUSH_HEIGHT/2, V_PUSH_WIDTH)
+  
+  Player:render()
   
   push:apply('end')
 end
