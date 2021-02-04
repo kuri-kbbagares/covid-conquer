@@ -1,5 +1,4 @@
-require 'source/Dependencies' --All libraries that are require will be placed here
-
+require 'src/Dependencies' --All libraries that are require will be placed here
 
 --Constant Values here vVv
 
@@ -29,7 +28,14 @@ function love.load()
       vsync = true
     }
   )
-  
+
+  gStateMachine = StateMachine{
+    ['pause'] = function () return PauseState() end,
+    ['play'] = function () return PlayState() end
+  }
+
+  gStateMachine:change('play')
+
   love.keyboard.keysPressed = {}
 end
 
@@ -71,15 +77,8 @@ end
 function love.draw()
   push:apply('start')
 
-  love.graphics.clear(245/255, 255/255, 255/255, 255/255)
-  love.graphics.setColor(0, 0, 0, 1)
-  displayClickCount(click_count)
-  love.graphics.printf('Covid Conquer ', 0, V_PUSH_HEIGHT/2, V_PUSH_WIDTH)
-  
-  Player:render()
-  if love.keyboard.wasPressed('return') then
-    Covid:render()
-  end
+  gStateMachine:render()
+
   push:apply('end')
 end
 
