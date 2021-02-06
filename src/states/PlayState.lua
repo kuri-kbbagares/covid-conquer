@@ -48,12 +48,25 @@ function PlayState:render()
     love.graphics.setColor(0,0,0,1)
     love.graphics.rectangle('fill', button_x, button_y, button_width, button_height)
 
-    menu_button = mouse(button_x, button_y, button_width, button_height)
-
-    love.graphics.printf(tostring(menu_button.switch), 0, WINDOW_HEIGHT * 0.5, WINDOW_WIDTH, 'center')
-
     if menu == true then
       love.graphics.rectangle('fill', WINDOW_WIDTH * 0.20, WINDOW_HEIGHT * 0.20, 500, 500)
+
+      love.graphics.setColor(1,1,1,1)
+      love.graphics.printf('Resume', 0, WINDOW_HEIGHT * 0.5, WINDOW_WIDTH, 'center')
     end
     -- *******************************************************************
+end
+
+function PlayState:mouse(x, y, button)
+  self.x = x
+  self.y = y
+
+  if button == 1 then
+    if self.x > WINDOW_WIDTH * 0.95 and self.x < WINDOW_WIDTH * 0.95 + 20 and self.y > WINDOW_HEIGHT * 0.02 and self.y < WINDOW_HEIGHT * 0.02 + 20 then
+      menu = not menu
+    else
+      click_count = click_count + 1
+    end
+  end
+
 end

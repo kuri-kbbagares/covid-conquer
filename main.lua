@@ -28,6 +28,7 @@ function love.load()
   })
 
   gStateMachine = StateMachine{
+    ['menu'] = function () return MenuState() end,
     ['pause'] = function () return PauseState() end,
     ['play'] = function () return PlayState() end
   }
@@ -50,12 +51,9 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.update(dt)
-
   gStateMachine:update(dt)
 
   Player:update(dt)
-
-
 end
 
 function love.draw()
@@ -65,8 +63,10 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button)
-  menu_button:click(x, y, button)
-  
+
+
+  gStateMachine:mouse(x, y, button)
+
 end
 
 

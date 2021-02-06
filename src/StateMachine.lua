@@ -25,3 +25,7 @@ end
 function StateMachine:render()
 	self.current:render()
 end
+
+function StateMachine:mouse(x, y, button)
+	self.current:mouse(x, y, button)
+end
