@@ -27,13 +27,20 @@ function love.load()
     vsync = true
   })
 
+  -- Place the source font in here
+  gFonts = {
+    ['smallFont'] = love.graphics.newFont(10),
+    ['mediumFont'] = love.graphics.newFont(20),
+    ['largeFont'] = love.graphics.newFont(30)
+  }
+
   gStateMachine = StateMachine{
     ['menu'] = function () return MenuState() end,
-    ['pause'] = function () return PauseState() end,
+    ['options'] = function () return OptionState() end,
     ['play'] = function () return PlayState() end
   }
 
-  gStateMachine:change('play')
+  gStateMachine:change('menu')
 
   love.keyboard.keysPressed = {}
 end

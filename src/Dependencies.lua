@@ -16,6 +16,6 @@ require 'src/StateMachine'
 
 require 'src/states/BaseState'
 require 'src/states/MenuState'
-require 'src/states/PauseState'
+require 'src/states/OptionState'
 require 'src/states/PlayState'
 
