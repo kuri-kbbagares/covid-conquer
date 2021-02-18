@@ -1,31 +1,31 @@
-player = Class{}
+Player = {}
 
-function player:init(x, y, width, height)
-  self.x = x
-  self.y = y
-  self.width = width
-  self.height = height
-  self.dy = 0
-  self.dx = 0
+function Player.load()
+  Player.x = 50
+  Player.y = 50
+  Player.width = 20
+  Player.height = 20
+  Player.ydelt = 0
+  Player.xdelt = 0
 end
 
-function player:update(dt)
-  --X-coord Movement and Border Detect
-  if self.dx < 0 then
-    self.x = math.max(0, self.x + self.dx * dt)    
+function Player.update(dt)
+  --(Bagares)Condition1: X-coord Movement and Border Detect
+  if Player.xdelt < 0 then
+    Player.x = math.max(0, Player.x + Player.xdelt * dt)    
   else
-    self.x = math.min(WINDOW_WIDTH - self.width, self.x + self.dx * dt)
+    Player.x = math.min(WINDOW_WIDTH - Player.width, Player.x + Player.xdelt * dt)
   end
   
-  -- Y-Coord Movement and Border Detect
-  if self.dy < 0 then
-    self.y = math.max(0, self.y + self.dy * dt)
+  --(Bagares)Condition2:  Y-Coord Movement and Border Detect
+  if Player.ydelt < 0 then
+    Player.y = math.max(0, Player.y + Player.ydelt * dt)
   else
-    self.y = math.min(WINDOW_HEIGHT - self.height, self.y + self.dy * dt)
+    Player.y = math.min(WINDOW_HEIGHT - Player.height, Player.y + Player.ydelt * dt)
   end
   
 end
 
-function player:render()
-  love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+function Player.render()
+  love.graphics.rectangle('fill', Player.x, Player.y, Player.width, Player.height)
 end

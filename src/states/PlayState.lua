@@ -12,24 +12,26 @@ function PlayState:update(dt)
   if menu == false or option == false then
 
     if love.keyboard.isDown('a') then
-      Player.dx = -PLAYER_SPEED
+      Player.xdelt = -PLAYER_SPEED
     elseif love.keyboard.isDown('d') then
-      Player.dx = PLAYER_SPEED
+      Player.xdelt = PLAYER_SPEED
     else
-      Player.dx = 0
+      Player.xdelt = 0
     end
 
     if love.keyboard.isDown('w') then
-      Player.dy = -PLAYER_SPEED
+      Player.ydelt = -PLAYER_SPEED
     elseif love.keyboard.isDown('s') then
-      Player.dy = PLAYER_SPEED
+      Player.ydelt = PLAYER_SPEED
     else
-      Player.dy = 0
+      Player.ydelt = 0
     end
 
     if love.keyboard.wasPressed('escape') then
       love.event.quit()
     end
+    
+    virusUpdate(dt)
 
   end
 
@@ -41,11 +43,11 @@ function PlayState:render()
     love.graphics.clear(245/255, 255/255, 255/255, 255/255)
     love.graphics.setColor(0, 0, 0, 1)
     displayClickCount(click_count)
-    love.graphics.printf('Covid Conquer ', 0, WINDOW_HEIGHT/2, VIRTUAL_WIDTH)
-    Player:render()
+    love.graphics.printf('Covid Conquer ', 0, WINDOW_HEIGHT/2, WINDOW_WIDTH)
+    Player.render()
 
     if love.keyboard.wasPressed('return') then
-      Covid:render()
+      virusRender()
     end
 
     -- Each button consists of an invisible box and a text, also feel free to convince me for some better alternatives

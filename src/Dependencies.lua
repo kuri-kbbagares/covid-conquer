@@ -6,7 +6,7 @@ Class = require 'library/class'
 
 --In objects directory
 require 'source/objects/player'
-require 'source/objects/virus'
+require 'source/objects/Virus'
 
 --In controls directory
 require 'source/controls/mouse'
