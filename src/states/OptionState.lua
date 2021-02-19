@@ -1,6 +1,14 @@
 OptionState = Class{__includes = BaseState}
 
 function OptionState:init()
+    self.button = {
+        ['exit'] = {x = WINDOW_WIDTH * 0.76,
+                    y = WINDOW_HEIGHT * 0.80,
+                    width = 90,
+                    height = 40
+
+        }
+    }
 
 end
 

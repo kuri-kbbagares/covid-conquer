@@ -9,6 +9,8 @@ PLAYER_SPEED = 200
 
 --non constants
 click_count = 0
+virusDamage = 0
+
 
 function love.load()
   --Some Object Declaration
@@ -39,6 +41,8 @@ function love.load()
   gStateMachine:change('menu')
 
   love.keyboard.keysPressed = {}
+  love.mouse.mousepressed = {}
+
 end
 
 --[[(Bagares)Function1: This are the function/s to initiate a key in keyboard was pressed
