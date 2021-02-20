@@ -2,9 +2,10 @@ PlayState = Class{__includes = BaseState}
 
 
 function PlayState:init()
-  menuPlay = true
-  menu = false
+  MENU_PLAY = true
+  MENU = false
 
+  self.cursor = love.mouse.getSystemCursor("crosshair")
   self.button = {
     ['pause'] = {x = WINDOW_WIDTH * 0.95,
                  y = WINDOW_HEIGHT * 0.02,
@@ -17,12 +18,11 @@ function PlayState:init()
                   height = 30
                  }
   }
-
 end
 
 function PlayState:update(dt)
 
-  if menu == false then
+  if MENU == false then
 
     if love.keyboard.isDown('a') then
       Player.xdelt = -PLAYER_SPEED
@@ -43,8 +43,14 @@ function PlayState:update(dt)
     if love.keyboard.wasPressed('escape') then
       love.event.quit()
     end
-    virusUpdate(dt)
+
+    -- [Pandan] - ATTENTION: Temporary Fix, please make an alternative
+    if love.keyboard.wasPressed('return') then
+      virusUpdate(dt)
+    end
   end
+
+
 
 end
 
@@ -52,12 +58,22 @@ end
 -- [Pandan] - If possible, change the color schemes in here
 function PlayState:render()
     love.graphics.clear(245/255, 255/255, 255/255, 255/255)
+    love.mouse.setCursor(self.cursor)
+
     love.graphics.setColor(0, 0, 0, 1)
     displayClickCount(click_count)
-    love.graphics.printf('Covid Conquer ', 0, WINDOW_HEIGHT/2, WINDOW_WIDTH)
-    love.graphics.printf('Damage: ' .. virusDamage, 0, WINDOW_HEIGHT/2.5, WINDOW_WIDTH)
-    love.graphics.printf('Virus: ' .. #virus, 0, WINDOW_HEIGHT/3, WINDOW_WIDTH)
-    love.graphics.printf('Click Count: ' .. click_count, 0, WINDOW_HEIGHT/3.5, WINDOW_WIDTH)
+
+    love.graphics.printf('Click Count: ' .. click_count, 0, 0, WINDOW_WIDTH)
+    love.graphics.printf('Virus: ' .. #virus, 0, 20, WINDOW_WIDTH)
+    love.graphics.printf('Damage: ' .. virusDamage, 0, 40, WINDOW_WIDTH)
+
+    love.graphics.printf('Player X: ' .. Player.x, 0, 100, WINDOW_WIDTH)
+    love.graphics.printf('Player Y: ' .. Player.y, 0, 120, WINDOW_WIDTH)
+
+    local mx, my = love.mouse.getPosition()
+    love.graphics.printf('Mouse X: ' .. mx, 0, 160, WINDOW_WIDTH)
+    love.graphics.printf('Mouse Y: ' .. my, 0, 180, WINDOW_WIDTH)
+
 
     Player.render()
 
@@ -74,7 +90,11 @@ function PlayState:render()
     love.graphics.rectangle('fill', self.button['pause'].x, self.button['pause'].y, self.button['pause'].width, self.button['pause'].height)
 
     -- [Pandan] - Menu Panel
-    if menu == true then
+    if MENU == true then
+      -- This code will also stops the player from its position
+      Player.xdelt = 0
+      Player.ydelt = 0
+
       love.graphics.rectangle('fill', WINDOW_WIDTH * 0.20, WINDOW_HEIGHT * 0.20, 500, 500)
 
       -- [Pandan] - Invisible Boxes - 3
@@ -96,32 +116,34 @@ end
 function PlayState:mouse(x, y, button)
 
   if button == 1 then
-    -- For virus
-    for i, v in ipairs (virus) do
-      if x > v.x and x < v.x + v.width  and y > v.y and y < v.y + v.height then
-        table.remove(virus, i)
-      end
+    -- For virus and player range
+    if ((Player.x + (Player.width / 2) - x) ^2 + (Player.y + (Player.height / 2) - y) ^2) ^0.5 < Player.radius then
+        for i, v in ipairs (virus) do
+          if ((v.x - x) ^2 + (v.y - y) ^2) ^0.5 < v.radius then
+            table.remove(virus, i)
+            break
+          end
+        end
     end
-    
-    if x > self.button['pause'].x and x < self.button['pause'].x + self.button['pause'].width and y > self.button['pause'].y and y < self.button['pause'].y + self.button['pause'].height then
-      menu = not menu
 
+    -- For pausebutton
+    if x > self.button['pause'].x and x < self.button['pause'].x + self.button['pause'].width and y > self.button['pause'].y and y < self.button['pause'].y + self.button['pause'].height then
+      MENU = not MENU
     -- [Pandan] Click function for every buttons in Menu
-    elseif menu == true then
+    elseif MENU == true then
       if x > self.button['option'].x and x < self.button['option'].x + self.button['option'].width and y > self.button['option'].y and y < self.button['option'].y + self.button['option'].height then
-        menu = false
+        MENU = false
+
       elseif x > self.button['option'].x and x < self.button['option'].x + self.button['option'].width and y > self.button['option'].y + (WINDOW_HEIGHT * 0.1) and y < self.button['option'].y + (WINDOW_HEIGHT * 0.1) + self.button['option'].height then
         gStateMachine:change('options')
+
       elseif x > self.button['option'].x and x < self.button['option'].x + self.button['option'].width and y > self.button['option'].y + (WINDOW_HEIGHT * 0.2) and y < self.button['option'].y + (WINDOW_HEIGHT * 0.2) + self.button['option'].height then
         gStateMachine:change('menu')
       end
-    
-      
 
     else
       click_count = click_count + 1
 
-      -- [Pandan] Nuke feature where all of the virus will be destroyed
     end
   end
 end

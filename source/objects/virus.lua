@@ -16,7 +16,7 @@ virus.height = 15
 
 
 function virus.spawn(x, y)
-  table.insert(virus, {x = x, y = y, xdelt = 0, ydelt = 0, width = virus.width, height = virus.height, radius = virus.radius})
+  table.insert(virus, {x = x, y = y, xdelt = 0, ydelt = 0, radius = virus.radius})
 end
 
 function generateVirus(dt)
@@ -79,7 +79,7 @@ end
 function virus.draw()
   for i, v in ipairs(virus) do
     love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.rectangle('line', v.x, v.y, v.width, v.height)
+    love.graphics.circle('line', v.x, v.y, v.radius)
   end
 end
 

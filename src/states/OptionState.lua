@@ -35,8 +35,9 @@ function OptionState:mouse(x, y, button)
 
     if button == 1 then
         if x > WINDOW_WIDTH * 0.76 and x < WINDOW_WIDTH * 0.76 + 90 and y > WINDOW_HEIGHT * 0.80 and y < WINDOW_HEIGHT * 0.80 + 40 then
-            if menuPlay == true then
+            if MENU_PLAY == true then
                 gStateMachine:change('play')
+                MENU = true
             else
                 gStateMachine:change('menu')
             end

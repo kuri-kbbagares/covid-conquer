@@ -84,5 +84,3 @@ function displayClickCount(click_count)
   --love.graphics.setColor(0, 0, 0, 1)
   --love.graphics.printf('Click Count: ' .. tostring(click_count), 10, VIRTUAL_HEIGHT-20, VIRTUAL_WIDTH)
 end
-
-
