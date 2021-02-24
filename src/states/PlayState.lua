@@ -6,24 +6,52 @@ function PlayState:init()
   MENU = false
 
   self.cursor = love.mouse.getSystemCursor("crosshair")
-  self.button = {
-    ['pause'] = {x = WINDOW_WIDTH * 0.95,
-                 y = WINDOW_HEIGHT * 0.02,
-                 width = 20,
-                 height = 20
-                },
-    ['option'] = {x = WINDOW_WIDTH * 0.45,
-                  y = WINDOW_HEIGHT * 0.4,
-                  width = 85,
-                  height = 30
-                 }
-  }
+  self.clickScript = {
+    ['option'] = {x = WINDOW_WIDTH * 0.95,
+                  y = WINDOW_HEIGHT * 0.02,
+                  width = 20,
+                  height = 20,
+
+                  script = function() MENU = true end},
+
+                -- Option Buttons 1 (Resume), 2 (Options), 3 (Exit)
+                {x = WINDOW_WIDTH * 0.45,
+                 y = WINDOW_HEIGHT * 0.4,
+                 width = 85,
+                 height = 30,
+                 textcolor = {},
+
+                 script = function() MENU = false end},
+
+                {x = WINDOW_WIDTH * 0.45,
+                y = WINDOW_HEIGHT * 0.5,
+                width = 85,
+                height = 30,
+                textcolor = {},
+
+                script = function() gStateMachine:change('options') end},
+              
+                {x = WINDOW_WIDTH * 0.45,
+                 y = WINDOW_HEIGHT * 0.6,
+                 width = 85,
+                 height = 30,
+                 textcolor = {},
+
+                 script = function() gStateMachine:change('menu') end
+                }}
 end
 
 function PlayState:update(dt)
+  if MENU == true then
+    for i, v in ipairs(self.clickScript) do
+      if love.mouse.getX() > v.x and love.mouse.getX() < v.x + v.width and love.mouse.getY() > v.y and love.mouse.getY() < v.y + v.height then
+          self.clickScript[i].textcolor = {1,0,0,1}
+      else
+          self.clickScript[i].textcolor = {1,1,1,1}
+      end
+    end
 
-  if MENU == false then
-
+  else
     if love.keyboard.isDown('a') then
       Player.xdelt = -PLAYER_SPEED
     elseif love.keyboard.isDown('d') then
@@ -49,9 +77,6 @@ function PlayState:update(dt)
       virusUpdate(dt)
     end
   end
-
-
-
 end
 
 -- [Pandan] - Every allocations I used was percentages of WINDOW_WIDTH and a WINDOW_HEIGHT. Feel free to change this if this is not efficient
@@ -74,6 +99,8 @@ function PlayState:render()
     love.graphics.printf('Mouse X: ' .. mx, 0, 160, WINDOW_WIDTH)
     love.graphics.printf('Mouse Y: ' .. my, 0, 180, WINDOW_WIDTH)
 
+    love.graphics.printf('Covid Conquer - BETA', 0, WINDOW_HEIGHT - 20, WINDOW_WIDTH, 'right')
+
 
     Player.render()
 
@@ -81,35 +108,29 @@ function PlayState:render()
       virusRender()
     end
 
-    -- [Pandan] - Each button consists of an invisible box and a text, also feel free to convince me for some better alternatives
-    -- [Pandan] - You can now delete the rectangular boxes here since this was just used to test if the clickboxes were placed properly
     love.graphics.setColor(0,0,0,1)
 
-    -- Pause Button located at top right
+
     love.graphics.setFont(gFonts['mediumFont'])
-    love.graphics.rectangle('fill', self.button['pause'].x, self.button['pause'].y, self.button['pause'].width, self.button['pause'].height)
+    love.graphics.rectangle('fill', self.clickScript['option'].x, self.clickScript['option'].y, self.clickScript['option'].width, self.clickScript['option'].height)
 
     -- [Pandan] - Menu Panel
     if MENU == true then
-      -- This code will also stops the player from its position
       Player.xdelt = 0
       Player.ydelt = 0
 
       love.graphics.rectangle('fill', WINDOW_WIDTH * 0.20, WINDOW_HEIGHT * 0.20, 500, 500)
 
-      -- [Pandan] - Invisible Boxes - 3
-      love.graphics.setColor(0,0,0,1)
-      for i= 1, 3 do
-        love.graphics.rectangle('fill', self.button['option'].x, self.button['option'].y + (WINDOW_HEIGHT * (i * 1/10)), self.button['option'].width, self.button['option'].height)
-      end
-
       -- [Pandan] and its text
-      love.graphics.setColor(1,1,1,1)
-      love.graphics.printf('Resume', 0, self.button['option'].y, WINDOW_WIDTH, 'center')
-      love.graphics.printf('Options', 0, self.button['option'].y + (WINDOW_HEIGHT * 0.1), WINDOW_WIDTH, 'center')
-      love.graphics.printf('Exit', 0, self.button['option'].y + (WINDOW_HEIGHT * 0.2), WINDOW_WIDTH, 'center')
-    end
+      love.graphics.setColor(self.clickScript[1].textcolor)
+      love.graphics.printf('Resume', 0, self.clickScript[1].y, WINDOW_WIDTH, 'center')
 
+      love.graphics.setColor(self.clickScript[2].textcolor)
+      love.graphics.printf('Options', 0, self.clickScript[2].y, WINDOW_WIDTH, 'center')
+
+      love.graphics.setColor(self.clickScript[3].textcolor)
+      love.graphics.printf('Exit', 0, self.clickScript[3].y, WINDOW_WIDTH, 'center')
+    end
 end
 
 -- [Pandan] This mouse function follows the AABB Collision
@@ -117,6 +138,16 @@ function PlayState:mouse(x, y, button)
 
   if button == 1 then
     -- For virus and player range
+    if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
+      MENU = not MENU
+    end
+
+    for i, v in ipairs(self.clickScript) do
+      if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
+          v.script()
+      end
+    end
+
     if ((Player.x + (Player.width / 2) - x) ^2 + (Player.y + (Player.height / 2) - y) ^2) ^0.5 < Player.radius then
         for i, v in ipairs (virus) do
           if ((v.x - x) ^2 + (v.y - y) ^2) ^0.5 < v.radius then
@@ -126,24 +157,7 @@ function PlayState:mouse(x, y, button)
         end
     end
 
-    -- For pausebutton
-    if x > self.button['pause'].x and x < self.button['pause'].x + self.button['pause'].width and y > self.button['pause'].y and y < self.button['pause'].y + self.button['pause'].height then
-      MENU = not MENU
-    -- [Pandan] Click function for every buttons in Menu
-    elseif MENU == true then
-      if x > self.button['option'].x and x < self.button['option'].x + self.button['option'].width and y > self.button['option'].y and y < self.button['option'].y + self.button['option'].height then
-        MENU = false
-
-      elseif x > self.button['option'].x and x < self.button['option'].x + self.button['option'].width and y > self.button['option'].y + (WINDOW_HEIGHT * 0.1) and y < self.button['option'].y + (WINDOW_HEIGHT * 0.1) + self.button['option'].height then
-        gStateMachine:change('options')
-
-      elseif x > self.button['option'].x and x < self.button['option'].x + self.button['option'].width and y > self.button['option'].y + (WINDOW_HEIGHT * 0.2) and y < self.button['option'].y + (WINDOW_HEIGHT * 0.2) + self.button['option'].height then
-        gStateMachine:change('menu')
-      end
-
-    else
-      click_count = click_count + 1
-
-    end
+  else
+    click_count = click_count + 1
   end
 end

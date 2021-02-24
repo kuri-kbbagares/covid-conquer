@@ -26,10 +26,16 @@ function love.load()
   })
 
   -- Place the source font in here
+  playerUp = 'W'
+  playerDown = 'S'
+  playerLeft = 'A'
+  playerRight = 'D'
+
   gFonts = {
-    ['smallFont'] = love.graphics.newFont(10),
-    ['mediumFont'] = love.graphics.newFont(20),
-    ['largeFont'] = love.graphics.newFont(30)
+    ['titleFont'] = love.graphics.newFont('fonts/titleFont.ttf', 80),
+    ['smallFont'] = love.graphics.newFont('fonts/menuFont.ttf', 10),
+    ['mediumFont'] = love.graphics.newFont('fonts/menuFont.ttf', 20),
+    ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30)
   }
 
   gStateMachine = StateMachine{
