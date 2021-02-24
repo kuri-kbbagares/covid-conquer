@@ -42,27 +42,18 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
-  if MENU == true then
-    for i, v in ipairs(self.clickScript) do
-      if love.mouse.getX() > v.x and love.mouse.getX() < v.x + v.width and love.mouse.getY() > v.y and love.mouse.getY() < v.y + v.height then
-          self.clickScript[i].textcolor = {1,0,0,1}
-      else
-          self.clickScript[i].textcolor = {1,1,1,1}
-      end
-    end
-
-  else
-    if love.keyboard.isDown('a') then
+  if MENU == false then
+    if love.keyboard.isDown(string.lower(playerLeft)) then
       Player.xdelt = -PLAYER_SPEED
-    elseif love.keyboard.isDown('d') then
+    elseif love.keyboard.isDown(string.lower(playerRight)) then
       Player.xdelt = PLAYER_SPEED
     else
       Player.xdelt = 0
     end
 
-    if love.keyboard.isDown('w') then
+    if love.keyboard.isDown(string.lower(playerUp)) then
       Player.ydelt = -PLAYER_SPEED
-    elseif love.keyboard.isDown('s') then
+    elseif love.keyboard.isDown(string.lower(playerDown)) then
       Player.ydelt = PLAYER_SPEED
     else
       Player.ydelt = 0
@@ -88,19 +79,18 @@ function PlayState:render()
     love.graphics.setColor(0, 0, 0, 1)
     displayClickCount(click_count)
 
+    love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.printf('Click Count: ' .. click_count, 0, 0, WINDOW_WIDTH)
     love.graphics.printf('Virus: ' .. #virus, 0, 20, WINDOW_WIDTH)
     love.graphics.printf('Damage: ' .. virusDamage, 0, 40, WINDOW_WIDTH)
 
-    love.graphics.printf('Player X: ' .. Player.x, 0, 100, WINDOW_WIDTH)
-    love.graphics.printf('Player Y: ' .. Player.y, 0, 120, WINDOW_WIDTH)
+    love.graphics.printf('Player X: ', 0, 100, WINDOW_WIDTH)
+    love.graphics.printf('Player Y: ', 0, 120, WINDOW_WIDTH)
 
-    local mx, my = love.mouse.getPosition()
-    love.graphics.printf('Mouse X: ' .. mx, 0, 160, WINDOW_WIDTH)
-    love.graphics.printf('Mouse Y: ' .. my, 0, 180, WINDOW_WIDTH)
+    love.graphics.printf('Mouse X: ', 0, 160, WINDOW_WIDTH)
+    love.graphics.printf('Mouse Y: ', 0, 180, WINDOW_WIDTH)
 
     love.graphics.printf('Covid Conquer - BETA', 0, WINDOW_HEIGHT - 20, WINDOW_WIDTH, 'right')
-
 
     Player.render()
 
@@ -110,14 +100,20 @@ function PlayState:render()
 
     love.graphics.setColor(0,0,0,1)
 
-
-    love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.rectangle('fill', self.clickScript['option'].x, self.clickScript['option'].y, self.clickScript['option'].width, self.clickScript['option'].height)
 
     -- [Pandan] - Menu Panel
     if MENU == true then
       Player.xdelt = 0
       Player.ydelt = 0
+
+      for i, v in ipairs(self.clickScript) do
+        if love.mouse.getX() > v.x and love.mouse.getX() < v.x + v.width and love.mouse.getY() > v.y and love.mouse.getY() < v.y + v.height then
+            self.clickScript[i].textcolor = {1,0,0,1}
+        else
+            self.clickScript[i].textcolor = {1,1,1,1}
+        end
+      end
 
       love.graphics.rectangle('fill', WINDOW_WIDTH * 0.20, WINDOW_HEIGHT * 0.20, 500, 500)
 
@@ -138,6 +134,15 @@ function PlayState:mouse(x, y, button)
 
   if button == 1 then
     -- For virus and player range
+    if ((Player.x + (Player.width / 2) - x) ^2 + (Player.y + (Player.height / 2) - y) ^2) ^0.5 < Player.radius then
+      for i, v in ipairs (virus) do
+        if ((v.x - x) ^2 + (v.y - y) ^2) ^0.5 < v.radius then
+          table.remove(virus, i)
+          break
+        end
+      end
+    end
+
     if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
       MENU = not MENU
     end
@@ -146,15 +151,6 @@ function PlayState:mouse(x, y, button)
       if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
           v.script()
       end
-    end
-
-    if ((Player.x + (Player.width / 2) - x) ^2 + (Player.y + (Player.height / 2) - y) ^2) ^0.5 < Player.radius then
-        for i, v in ipairs (virus) do
-          if ((v.x - x) ^2 + (v.y - y) ^2) ^0.5 < v.radius then
-            table.remove(virus, i)
-            break
-          end
-        end
     end
 
   else

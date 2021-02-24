@@ -29,19 +29,6 @@ function MenuState:init()
 
 end
 
-function MenuState:update()   
-    x = love.mouse.getX()
-    y = love.mouse.getY()
-
-    for i, v in ipairs(self.clickScript) do
-        if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
-            self.clickScript[i].textcolor = {1,0,0,1}
-        else
-            self.clickScript[i].textcolor = {1,1,1,1}
-        end
-    end
-end
-
 function MenuState:render()
     love.graphics.clear(0/255, 0/255, 0/255, 0/255)
 
@@ -51,6 +38,16 @@ function MenuState:render()
     love.graphics.printf('COVID CONQUER', 0, WINDOW_HEIGHT * 0.20, WINDOW_WIDTH, 'center')
 
     -- Menu Buttons
+    local x = love.mouse.getX()
+    local y = love.mouse.getY()
+
+    for i, v in ipairs(self.clickScript) do
+        if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
+            self.clickScript[i].textcolor = {1,0,0,1}
+        else
+            self.clickScript[i].textcolor = {1,1,1,1}
+        end
+    end
     love.graphics.setFont(gFonts['largeFont'])
     love.graphics.setColor(self.clickScript[1].textcolor)
     love.graphics.printf('Play', 0, self.clickScript[1].y, WINDOW_WIDTH, 'center')

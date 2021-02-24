@@ -45,9 +45,22 @@ function OptionState:init()
 
 end
 
-function OptionState:update(dt)
-    x = love.mouse.getX()
-    y = love.mouse.getY()
+function OptionState:render()
+    love.graphics.clear(245/255, 255/255, 255/255, 255/255)
+
+    love.graphics.setFont(gFonts['largeFont'])
+
+    love.graphics.setColor(0,0,0,1)
+    love.graphics.printf('Options', WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, WINDOW_WIDTH, 'left')
+    love.graphics.printf('Movements', 0, WINDOW_HEIGHT * 0.20, WINDOW_WIDTH, 'center')
+
+    -- Buttons
+    -- (Place anything possible for options)
+    -- love.graphics.setColor(1,1,0,1)
+    -- love.graphics.rectangle('fill', self.clickScript[1].x, self.clickScript[1].y, 90, 40)
+
+    local x = love.mouse.getX()
+    local y = love.mouse.getY()
 
     if x > self.clickScript['exit'].x and x < self.clickScript['exit'].x + self.clickScript['exit'].width and y > self.clickScript['exit'].y and y < self.clickScript['exit'].y + self.clickScript['exit'].height then
         self.clickScript['exit'].textcolor = {1,0,0,1}
@@ -62,21 +75,6 @@ function OptionState:update(dt)
             self.clickScript[i].textcolor = {0,0,0,1}
         end
     end
-end
-
-function OptionState:render()
-    love.graphics.clear(245/255, 255/255, 255/255, 255/255)
-
-    love.graphics.setFont(gFonts['largeFont'])
-
-    love.graphics.setColor(0,0,0,1)
-    love.graphics.printf('Options', WINDOW_WIDTH * 0.1, WINDOW_HEIGHT * 0.1, WINDOW_WIDTH, 'left')
-    love.graphics.printf('Movements', 0, WINDOW_HEIGHT * 0.20, WINDOW_WIDTH, 'center')
-
-    -- Buttons
-    -- (Place anything possible for options)
-    -- love.graphics.setColor(1,1,0,1)
-    -- love.graphics.rectangle('fill', self.clickScript[1].x, self.clickScript[1].y, 90, 40)
 
     love.graphics.setColor(self.clickScript[1].textcolor)
     love.graphics.printf('Up: ' .. string.upper(playerUp), WINDOW_WIDTH * 0.25, WINDOW_HEIGHT * 0.28, WINDOW_WIDTH, 'left')
