@@ -3,20 +3,16 @@ Virus = Class{}
 virus = {} --(Bagares)Table1: for storing the number of virus
 virus.timeSpawn = 0
 virus.timerSpawnLimit = math.random(3,5)
---(Bagares) This can change dependently to player's score, or any other parameters. These values determine how many virus will spawn 
-local maxValueSpawn = 3
-local minValueSpawn = 7
+virus.amount = 3
 
-virus.amount = math.random(minValueSpawn, maxValueSpawn)
-
-virus.radius = 20
-virusDamage = 0
+virus.radius = 15
+virus.damage = 0
 
 virus.speed = 500
 virus.friction = 7.5
 
-virus.width = 20
-virus.height = 20
+virus.width = 15
+virus.height = 15
 
 
 function virus.spawn(x, y)
@@ -29,9 +25,8 @@ function generateVirus(dt)
     for i=1, virus.amount do
       virus.spawn(VIRTUAL_WIDTH/2 - 25, math.random(-25, -100))
     end
-    virus.timerSpawnLimit= math.random(3,5)
+    --([Bagares]- 'piece of code, don't touch')virus.timerSpawnLimit= math.random(3,5)
     virus.timeSpawn = 0
-    virus.amount = math.random(minValueSpawn, maxValueSpawn)
   end
 end
 
@@ -64,7 +59,7 @@ function virus.AI(dt)
     end
   
   
-    if math.floor(v.x) == math.floor(Player.x) and math.floor(v.y)  == math.floor(Player.y)  then
+    if math.floor(v.x)  == math.floor(Player.x) and math.floor(v.y) == math.floor(Player.y)  then
     --(BAGARES) damages player
       virusDamage = virusDamage + 1
     end

@@ -12,6 +12,8 @@ PLAYER_SPEED = 200
 
 --non constants
 click_count = 0
+virusDamage = 0
+
 
 function love.load()
   --Some Object Declaration
@@ -28,6 +30,9 @@ function love.load()
 
   push:setBorderColor(0, 0, 0)
 
+  SCORE = 0
+  -- [Pandan] For Editing the Key Movements
+  playerUpOpen, playerDownOpen, playerLeftOpen, playerRightOpen = false, false, false, false
   playerUp = 'W'
   playerDown = 'S'
   playerLeft = 'A'
@@ -50,8 +55,6 @@ function love.load()
 
   love.keyboard.keysPressed = {}
   love.mouse.mousepressed = {}
-  
-  
 
 end
 
@@ -59,6 +62,7 @@ end
 ]]--
 function love.keypressed(key)
   love.keyboard.keysPressed[key] = true
+  KeyBindings(key)
 end
 
 function love.keyboard.wasPressed(key)
