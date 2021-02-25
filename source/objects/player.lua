@@ -15,17 +15,9 @@ end
 function Player.update(dt)
   --(Bagares)Condition1: X-coord Movement and Border Detect
   if Player.xdelt < 0 then
-    -- South
-    if Player.ydelt == 0 then
-      Player.x = math.max(0, Player.x + Player.xdelt * dt)
-    end
-
-    
+    Player.x = math.max(0, Player.x + Player.xdelt * dt)
   else
-    -- North
-    if Player.ydelt == 0 then
-      Player.x = math.min(VIRTUAL_WIDTH - Player.width, Player.x + Player.xdelt * dt)
-    end
+    Player.x = math.min(VIRTUAL_WIDTH - Player.width, Player.x + Player.xdelt * dt)
   end
   
   --(Bagares)Condition2:  Y-Coord Movement and Border Detect
@@ -35,6 +27,7 @@ function Player.update(dt)
     Player.y = math.min(VIRTUAL_HEIGHT - Player.height, Player.y + Player.ydelt * dt)
   end
 
+  -- [Pandan] This was supposed to be a code for player leaning on various directions
   -- North West
   if Player.xdelt < 0 and Player.ydelt > 0 then
   end
