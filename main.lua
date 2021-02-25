@@ -17,7 +17,6 @@ virusDamage = 0
 
 function love.load()
   --Some Object Declaration
-  Player.load()
   math.randomseed(os.time())
   
   love.window.setTitle('Covid Conquer')
@@ -27,8 +26,6 @@ function love.load()
     fullscreen = false,
     vsync = false
   })
-
-  push:setBorderColor(0, 0, 0)
 
   SCORE = 0
   -- [Pandan] For Editing the Key Movements
@@ -45,6 +42,10 @@ function love.load()
     ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30)
   }
 
+  gTextures = {
+    ['virus'] = love.graphics.newImage('graphics/veerus.png')
+  }
+
   gStateMachine = StateMachine{
     ['menu'] = function () return MenuState() end,
     ['options'] = function () return OptionState() end,
@@ -52,6 +53,7 @@ function love.load()
   }
 
   gStateMachine:change('menu')
+  Player.load()
 
   love.keyboard.keysPressed = {}
   love.mouse.mousepressed = {}
@@ -94,9 +96,28 @@ function love.mousepressed(x, y, button)
   gStateMachine:mouse(x, y, button)
 end
 
-
-
 function displayClickCount(click_count)
   --love.graphics.setColor(0, 0, 0, 1)
   --love.graphics.printf('Click Count: ' .. tostring(click_count), 10, VIRTUAL_HEIGHT-20, VIRTUAL_WIDTH)
+end
+
+function KeyBindings(key)
+  if key ~= nil then
+      if playerUpOpen == true then
+          playerUp = string.upper(key)
+          playerUpOpen = false
+
+      elseif playerDownOpen == true then
+          playerDown = string.upper(key)
+          playerDownOpen = false
+
+      elseif playerLeftOpen == true then
+          playerLeft = string.upper(key)
+          playerLeftOpen = false
+
+      elseif playerRightOpen == true then
+          playerRight = string.upper(key)
+          playerRightOpen = false
+      end
+  end
 end

@@ -7,7 +7,7 @@ function PlayState:init()
 
   self.cursor = love.mouse.getSystemCursor("crosshair")
   self.clickScript = {
-    ['option'] = {x = VIRTUAL_WIDTH * 0.95,
+    ['option'] = {x = VIRTUAL_WIDTH * 0.02,
                   y = VIRTUAL_HEIGHT * 0.02,
                   width = 20,
                   height = 20,
@@ -42,10 +42,15 @@ function PlayState:init()
                     gStateMachine:change('menu') 
                   end
                 }}
+
+  -- From src/Scoring.lua, initializes the scores variable
+  Scoring:init()
 end
 
 function PlayState:update(dt)
   if MENU == false then
+    Scoring:update(dt)
+
     if love.keyboard.isDown(string.lower(playerLeft)) then
       Player.xdelt = -PLAYER_SPEED
     elseif love.keyboard.isDown(string.lower(playerRight)) then
@@ -92,6 +97,12 @@ end
 function PlayState:render()
     love.graphics.clear(245/255, 255/255, 255/255, 255/255)
     love.mouse.setCursor(self.cursor)
+    
+    if love.keyboard.wasPressed('return') then
+      virusRender()
+    end
+    Player.render()
+    Scoring:render()
 
     love.graphics.setColor(0, 0, 0, 1)
     displayClickCount(click_count)
@@ -111,12 +122,6 @@ function PlayState:render()
     love.graphics.printf('Score: '.. SCORE, 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'left')
 
     love.graphics.printf('Covid Conquer - BETA', 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'right')
-
-    Player.render()
-
-    if love.keyboard.wasPressed('return') then
-      virusRender()
-    end
 
     love.graphics.setColor(0,0,0,1)
 
@@ -141,13 +146,16 @@ function PlayState:render()
     end
 end
 
--- [Pandan] This mouse function follows the AABB Collision
 function PlayState:mouse(x, y, button)
   -- To avoid any errors when clicking outside the window
   if x and y ~= nil then
 
     -- If LMB was clicked
     if button == 1 then
+        -- Pause Button
+      if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
+        MENU = not MENU
+      end
 
       if MENU == true then
         for i, v in ipairs(self.clickScript) do
@@ -157,23 +165,11 @@ function PlayState:mouse(x, y, button)
         end
 
       else
-        -- For virus and player range
-        if ((Player.x + (Player.width / 2) - x) ^2 + (Player.y + (Player.height / 2) - y) ^2) ^0.5 < Player.radius then
-          for i, v in ipairs (virus) do
-            if ((v.x - x) ^2 + (v.y - y) ^2) ^0.5 < v.radius then
-              table.remove(virus, i)
-              break
-            end
-          end
-        
-        -- Pause Button
-        elseif x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
-          MENU = not MENU
-        end
+        -- To get a score and kill virus
+        Scoring:mousepressed(x,y,button)
 
-        click_count = click_count + 1
       end
+        click_count = click_count + 1
     end
   end
-
 end

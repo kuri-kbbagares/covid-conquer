@@ -148,24 +148,3 @@ function OptionState:mouse(x, y, button)
         end
     end
 end
-
-function KeyBindings(key)
-    if key ~= nil then
-        if playerUpOpen == true then
-            playerUp = string.upper(key)
-            playerUpOpen = false
-
-        elseif playerDownOpen == true then
-            playerDown = string.upper(key)
-            playerDownOpen = false
-
-        elseif playerLeftOpen == true then
-            playerLeft = string.upper(key)
-            playerLeftOpen = false
-
-        elseif playerRightOpen == true then
-            playerRight = string.upper(key)
-            playerRightOpen = false
-        end
-    end
-end

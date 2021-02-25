@@ -12,7 +12,9 @@ require 'source/objects/Virus'
 require 'source/controls/mouse'
 
 -- In src & src/states directory
+require 'src/Scoring'
 require 'src/StateMachine'
+require 'src/Util'
 
 require 'src/states/BaseState'
 require 'src/states/MenuState'

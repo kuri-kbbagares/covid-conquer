@@ -1,15 +1,15 @@
 Player = {}
 
 function Player.load()
-  Player.x = 50
-  Player.y = 50
+  Player.x = VIRTUAL_WIDTH / 2
+  Player.y = VIRTUAL_HEIGHT / 2
   Player.width = 20
   Player.height = 20
   Player.ydelt = 0
   Player.xdelt = 0
 
   -- [Pandan] - I've come up an idea that we should make a range
-  Player.radius = 150
+  Player.radius = 100
 end
 
 function Player.update(dt)
@@ -46,6 +46,7 @@ function Player.update(dt)
 end
 
 function Player.render()
+  love.graphics.setColor(0,0,0,1)
   love.graphics.rectangle('fill', Player.x, Player.y, Player.width, Player.height)
 
   love.graphics.setColor(0,0,1,1)

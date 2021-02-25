@@ -10,7 +10,6 @@ virus.damage = 0
 
 virus.speed = 500
 virus.friction = 7.5
-local virusImage = love.graphics.newImage('graphics/veerus.png')
 
 virus.width = 15
 virus.height = 15
@@ -80,8 +79,8 @@ end
 
 function virus.draw()
   for i, v in ipairs(virus) do
-    --love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.draw(virusImage, v.x - 20, v.y - 20)
+    love.graphics.draw(gTextures['virus'], v.x - 20, v.y - 20)
+
     love.graphics.circle('line', v.x, v.y, v.radius)
   end
 end
