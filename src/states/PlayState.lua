@@ -19,7 +19,7 @@ function PlayState:init()
                  y = VIRTUAL_HEIGHT * 0.4,
                  width = 85,
                  height = 30,
-                 textcolor = {1,1,1,1},
+                 textcolor = {},
 
                  script = function() MENU = false end},
 
@@ -27,7 +27,7 @@ function PlayState:init()
                 y = VIRTUAL_HEIGHT * 0.5,
                 width = 85,
                 height = 30,
-                textcolor = {1,1,1,1},
+                textcolor = {},
 
                 script = function() gStateMachine:change('options') end},
               
@@ -35,7 +35,7 @@ function PlayState:init()
                  y = VIRTUAL_HEIGHT * 0.6,
                  width = 85,
                  height = 30,
-                 textcolor = {1,1,1,1},
+                 textcolor = {},
 
                  script = function() 
                     MENU_PLAY = false
@@ -101,14 +101,11 @@ function PlayState:render()
     love.graphics.printf('Virus: ' .. #virus, 0, 20, VIRTUAL_WIDTH)
     love.graphics.printf('Damage: ' .. virusDamage, 0, 40, VIRTUAL_WIDTH)
 
-    love.graphics.printf('Player X: ' .. Player.x, 0, 100, VIRTUAL_WIDTH)
-    love.graphics.printf('Player Y: ' .. Player.y, 0, 120, VIRTUAL_WIDTH)
+    love.graphics.printf('Player X: ', 0, 100, VIRTUAL_WIDTH)
+    love.graphics.printf('Player Y: ', 0, 120, VIRTUAL_WIDTH)
 
-    local mx, my = love.mouse.getPosition()
-    love.graphics.printf('Mouse X: ' .. mx, 0, 160, VIRTUAL_WIDTH)
-    love.graphics.printf('Mouse Y: ' .. my, 0, 180, VIRTUAL_WIDTH)
-
-    love.graphics.printf('Score: '.. SCORE, 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf('Mouse X: ', 0, 160, VIRTUAL_WIDTH)
+    love.graphics.printf('Mouse Y: ', 0, 180, VIRTUAL_WIDTH)
 
     love.graphics.printf('Covid Conquer - BETA', 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'right')
 
@@ -143,13 +140,21 @@ end
 
 -- [Pandan] This mouse function follows the AABB Collision
 function PlayState:mouse(x, y, button)
-  -- To avoid any errors when clicking outside the window
   if x and y ~= nil then
-
-    -- If LMB was clicked
     if button == 1 then
+      -- For virus and player range
+      if ((Player.x + (Player.width / 2) - x) ^2 + (Player.y + (Player.height / 2) - y) ^2) ^0.5 < Player.radius then
+        for i, v in ipairs (virus) do
+          if ((v.x - x) ^2 + (v.y - y) ^2) ^0.5 < v.radius then
+            table.remove(virus, i)
+            break
+          end
+        end
 
-      if MENU == true then
+      elseif x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
+        MENU = not MENU
+
+      elseif MENU == true then
         for i, v in ipairs(self.clickScript) do
           if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
               v.script()
@@ -157,23 +162,11 @@ function PlayState:mouse(x, y, button)
         end
 
       else
-        -- For virus and player range
-        if ((Player.x + (Player.width / 2) - x) ^2 + (Player.y + (Player.height / 2) - y) ^2) ^0.5 < Player.radius then
-          for i, v in ipairs (virus) do
-            if ((v.x - x) ^2 + (v.y - y) ^2) ^0.5 < v.radius then
-              table.remove(virus, i)
-              break
-            end
-          end
-        
-        -- Pause Button
-        elseif x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
-          MENU = not MENU
-        end
-
         click_count = click_count + 1
       end
+
+    else
+
     end
   end
-
 end

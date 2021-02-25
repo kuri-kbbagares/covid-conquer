@@ -18,61 +18,29 @@ function OptionState:init()
                     end},
 
                     -- Buttons for (1) Up, (2) Down, (3) Left, (4) Right
-                    {x = VIRTUAL_WIDTH * 0.20,
-                    y =  VIRTUAL_HEIGHT * 0.30,
+                    {x = VIRTUAL_WIDTH * 0.25,
+                     y =  VIRTUAL_HEIGHT * 0.28,
+                     width = 90,
+                     height = 40,
+                     textcolor = {}},
+
+                    {x = VIRTUAL_WIDTH * 0.25,
+                    y =  VIRTUAL_HEIGHT * 0.34,
                     width = 90,
                     height = 40,
-                    textcolor = {0,0,0,1},
-
-                    script = function()
-                            playerUp = 'INSERT KEY'
-                            if playerUp == 'INSERT KEY' then
-                                playerUpOpen = true
-                                KeyBindings()
-                            end
-                    end},
-
-                    {x = VIRTUAL_WIDTH * 0.20,
-                    y =  VIRTUAL_HEIGHT * 0.40,
-                    width = 90,
-                    height = 40,
-                    textcolor = {0,0,0,1},
+                    textcolor = {}},
                     
-                    script = function()
-                        playerDown = 'INSERT KEY'
-                        if playerDown == 'INSERT KEY' then
-                            playerDownOpen = true
-                            KeyBindings()
-                        end
-                    end},
-                    
-                    {x = VIRTUAL_WIDTH * 0.50,
-                    y =  VIRTUAL_HEIGHT * 0.30,
+                    {x = VIRTUAL_WIDTH * 0.65,
+                    y =  VIRTUAL_HEIGHT * 0.28,
                     width = 90,
                     height = 40,
-                    textcolor = {0,0,0,1},
+                    textcolor = {}},
 
-                    script = function()
-                        playerLeft = 'INSERT KEY'
-                        if playerLeft == 'INSERT KEY' then
-                            playerLeftOpen = true
-                            KeyBindings()
-                        end
-                    end},
-
-                    {x = VIRTUAL_WIDTH * 0.50,
-                    y =  VIRTUAL_HEIGHT * 0.40,
+                    {x = VIRTUAL_WIDTH * 0.65,
+                    y =  VIRTUAL_HEIGHT * 0.34,
                     width = 90,
                     height = 40,
-                    textcolor = {0,0,0,1},
-
-                    script = function()
-                        playerRight = 'INSERT KEY'
-                        if playerRight == 'INSERT KEY' then
-                            playerRightOpen = true
-                            KeyBindings()
-                        end
-                    end},
+                    textcolor = {}}
         }
 
 end
@@ -114,16 +82,16 @@ function OptionState:render()
     -- love.graphics.rectangle('fill', self.clickScript[1].x, self.clickScript[1].y, 90, 40)
 
     love.graphics.setColor(self.clickScript[1].textcolor)
-    love.graphics.printf('Up: ' .. string.upper(playerUp), self.clickScript[1].x, self.clickScript[1].y, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf('Up: ' .. string.upper(playerUp), VIRTUAL_WIDTH * 0.25, VIRTUAL_HEIGHT * 0.28, VIRTUAL_WIDTH, 'left')
 
     love.graphics.setColor(self.clickScript[2].textcolor)
-    love.graphics.printf('Down: ' .. string.upper(playerDown), self.clickScript[2].x, self.clickScript[2].y, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf('Down: ' .. string.upper(playerDown), VIRTUAL_WIDTH * 0.25, VIRTUAL_HEIGHT * 0.34, VIRTUAL_WIDTH, 'left')
 
     love.graphics.setColor(self.clickScript[3].textcolor)
-    love.graphics.printf('Left: ' .. string.upper(playerLeft), self.clickScript[3].x, self.clickScript[3].y, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf('Left: ' .. string.upper(playerLeft), VIRTUAL_WIDTH * 0.65, VIRTUAL_HEIGHT * 0.28, VIRTUAL_WIDTH, 'left')
 
     love.graphics.setColor(self.clickScript[4].textcolor)
-    love.graphics.printf('Right: ' .. string.upper(playerRight), self.clickScript[4].x, self.clickScript[4].y, VIRTUAL_WIDTH, 'left')
+    love.graphics.printf('Right: ' .. string.upper(playerRight), VIRTUAL_WIDTH * 0.65, VIRTUAL_HEIGHT * 0.34, VIRTUAL_WIDTH, 'left')
 
     -- Exit button
     -- love.graphics.setColor(1,1,0,0)
@@ -150,22 +118,14 @@ function OptionState:mouse(x, y, button)
 end
 
 function KeyBindings(key)
-    if key ~= nil then
-        if playerUpOpen == true then
-            playerUp = string.upper(key)
-            playerUpOpen = false
-
-        elseif playerDownOpen == true then
-            playerDown = string.upper(key)
-            playerDownOpen = false
-
-        elseif playerLeftOpen == true then
-            playerLeft = string.upper(key)
-            playerLeftOpen = false
-
-        elseif playerRightOpen == true then
-            playerRight = string.upper(key)
-            playerRightOpen = false
+    if edit == true then
+        InputKey = tostring (key)
+        if love.keyboard.isDown(key) then
+            edit = false
         end
+    end
+
+    if edit == false then
+        playerUp, playerDown, playerLeft, playerRight = false, false, false, false
     end
 end

@@ -30,9 +30,6 @@ function love.load()
 
   push:setBorderColor(0, 0, 0)
 
-  SCORE = 0
-  -- [Pandan] For Editing the Key Movements
-  playerUpOpen, playerDownOpen, playerLeftOpen, playerRightOpen = false, false, false, false
   playerUp = 'W'
   playerDown = 'S'
   playerLeft = 'A'
@@ -62,7 +59,6 @@ end
 ]]--
 function love.keypressed(key)
   love.keyboard.keysPressed[key] = true
-  KeyBindings(key)
 end
 
 function love.keyboard.wasPressed(key)
