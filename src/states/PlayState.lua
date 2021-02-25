@@ -42,7 +42,8 @@ function PlayState:init()
                     gStateMachine:change('menu') 
                   end
                 }}
-
+  
+  PlayMenu:init(self.clickScript)
   -- From src/Scoring.lua, initializes the scores variable
   Scoring:init()
 end
@@ -119,8 +120,6 @@ function PlayState:render()
     love.graphics.printf('Mouse X: ' .. mx, 0, 160, VIRTUAL_WIDTH)
     love.graphics.printf('Mouse Y: ' .. my, 0, 180, VIRTUAL_WIDTH)
 
-    love.graphics.printf('Score: '.. SCORE, 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'left')
-
     love.graphics.printf('Covid Conquer - BETA', 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'right')
 
     love.graphics.setColor(0,0,0,1)
@@ -128,22 +127,16 @@ function PlayState:render()
     love.graphics.rectangle('fill', self.clickScript['option'].x, self.clickScript['option'].y, self.clickScript['option'].width, self.clickScript['option'].height)
 
     -- [Pandan] - Menu Panel
-    if MENU == true then
-      Player.xdelt = 0
-      Player.ydelt = 0
+    if virusDamage < 1000 then
+      if MENU == true then
+        PlayMenu:render()
+      end
 
-      love.graphics.rectangle('fill', VIRTUAL_WIDTH * 0.20, VIRTUAL_HEIGHT * 0.20, 300, 300)
-
-      -- [Pandan] and its text
-      love.graphics.setColor(self.clickScript[1].textcolor)
-      love.graphics.printf('Resume', 0, self.clickScript[1].y, VIRTUAL_WIDTH, 'center')
-
-      love.graphics.setColor(self.clickScript[2].textcolor)
-      love.graphics.printf('Options', 0, self.clickScript[2].y, VIRTUAL_WIDTH, 'center')
-
-      love.graphics.setColor(self.clickScript[3].textcolor)
-      love.graphics.printf('Exit', 0, self.clickScript[3].y, VIRTUAL_WIDTH, 'center')
+    else
+      MENU = true
+      PlayMenu:render()
     end
+
 end
 
 function PlayState:mouse(x, y, button)
@@ -153,8 +146,12 @@ function PlayState:mouse(x, y, button)
     -- If LMB was clicked
     if button == 1 then
         -- Pause Button
-      if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
-        MENU = not MENU
+      if virusDamage < 1000 then
+        if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
+          MENU = not MENU
+        end
+      else
+
       end
 
       if MENU == true then
@@ -166,7 +163,7 @@ function PlayState:mouse(x, y, button)
 
       else
         -- To get a score and kill virus
-        Scoring:mousepressed(x,y,button)
+        Scoring:mousepressed(x,y)
 
       end
         click_count = click_count + 1

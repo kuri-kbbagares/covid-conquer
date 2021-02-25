@@ -14,20 +14,18 @@ PLAYER_SPEED = 200
 click_count = 0
 virusDamage = 0
 
-
 function love.load()
   --Some Object Declaration
   math.randomseed(os.time())
-  
+
   love.window.setTitle('Covid Conquer')
   love.graphics.setDefaultFilter('nearest', 'nearest')
-  
+
   push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
     fullscreen = false,
     vsync = false
   })
 
-  SCORE = 0
   -- [Pandan] For Editing the Key Movements
   playerUpOpen, playerDownOpen, playerLeftOpen, playerRightOpen = false, false, false, false
   playerUp = 'W'
@@ -37,8 +35,9 @@ function love.load()
 
   gFonts = {
     ['titleFont'] = love.graphics.newFont('fonts/titleFont.ttf', 80),
+    ['medium_titleFont'] = love.graphics.newFont('fonts/titleFont.ttf', 50),
     ['smallFont'] = love.graphics.newFont('fonts/menuFont.ttf', 10),
-    ['mediumFont'] = love.graphics.newFont('fonts/menuFont.ttf', 20),
+    ['mediumFont'] = love.graphics.newFont('fonts/menuFont.ttf', 15),
     ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30)
   }
 
