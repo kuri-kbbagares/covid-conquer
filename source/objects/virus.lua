@@ -3,13 +3,14 @@ Virus = Class{}
 virus = {} --(Bagares)Table1: for storing the number of virus
 virus.timeSpawn = 0
 virus.timerSpawnLimit = math.random(3,5)
-virus.amount = 3
+virus.amount = math.random(3, 7)
 
-virus.radius = 15
+virus.radius = 20
 virus.damage = 0
 
 virus.speed = 500
 virus.friction = 7.5
+local virusImage = love.graphics.newImage('graphics/veerus.png')
 
 virus.width = 15
 virus.height = 15
@@ -25,7 +26,8 @@ function generateVirus(dt)
     for i=1, virus.amount do
       virus.spawn(VIRTUAL_WIDTH/2 - 25, math.random(-25, -100))
     end
-    --([Bagares]- 'piece of code, don't touch')virus.timerSpawnLimit= math.random(3,5)
+    virus.timerSpawnLimit= math.random(3,5)
+    virus.amount = math.random(3, 7)
     virus.timeSpawn = 0
   end
 end
@@ -78,7 +80,8 @@ end
 
 function virus.draw()
   for i, v in ipairs(virus) do
-    love.graphics.setColor(0, 0, 0, 1)
+    --love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.draw(virusImage, v.x - 20, v.y - 20)
     love.graphics.circle('line', v.x, v.y, v.radius)
   end
 end

@@ -101,8 +101,8 @@ function PlayState:render()
     love.graphics.printf('Virus: ' .. #virus, 0, 20, VIRTUAL_WIDTH)
     love.graphics.printf('Damage: ' .. virusDamage, 0, 40, VIRTUAL_WIDTH)
 
-    love.graphics.printf('Player X: ' .. Player.x, 0, 100, VIRTUAL_WIDTH)
-    love.graphics.printf('Player Y: ' .. Player.y, 0, 120, VIRTUAL_WIDTH)
+    love.graphics.printf('Player X: ' .. tostring(math.floor(Player.x)), 0, 100, VIRTUAL_WIDTH)
+    love.graphics.printf('Player Y: ' .. tostring(math.floor(Player.y)), 0, 120, VIRTUAL_WIDTH)
 
     local mx, my = love.mouse.getPosition()
     love.graphics.printf('Mouse X: ' .. mx, 0, 160, VIRTUAL_WIDTH)
