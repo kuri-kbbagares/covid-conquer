@@ -23,7 +23,7 @@ function generateVirus(dt)
   virus.timeSpawn = virus.timeSpawn + dt
   if virus.timeSpawn > virus.timerSpawnLimit then
     for i=1, virus.amount do
-      virus.spawn(WINDOW_WIDTH/2 - 25, math.random(-25, -100))
+      virus.spawn(VIRTUAL_WIDTH/2 - 25, math.random(-25, -100))
     end
     --([Bagares]- 'piece of code, don't touch')virus.timerSpawnLimit= math.random(3,5)
     virus.timeSpawn = 0

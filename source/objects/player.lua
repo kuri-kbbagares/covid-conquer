@@ -15,18 +15,41 @@ end
 function Player.update(dt)
   --(Bagares)Condition1: X-coord Movement and Border Detect
   if Player.xdelt < 0 then
-    Player.x = math.max(0, Player.x + Player.xdelt * dt)  
+    -- South
+    if Player.ydelt == 0 then
+      Player.x = math.max(0, Player.x + Player.xdelt * dt)
+    end
+
+    
   else
-    Player.x = math.min(WINDOW_WIDTH - Player.width, Player.x + Player.xdelt * dt)
+    -- North
+    if Player.ydelt == 0 then
+      Player.x = math.min(VIRTUAL_WIDTH - Player.width, Player.x + Player.xdelt * dt)
+    end
   end
   
   --(Bagares)Condition2:  Y-Coord Movement and Border Detect
   if Player.ydelt < 0 then
     Player.y = math.max(0, Player.y + Player.ydelt * dt)
   else
-    Player.y = math.min(WINDOW_HEIGHT - Player.height, Player.y + Player.ydelt * dt)
+    Player.y = math.min(VIRTUAL_HEIGHT - Player.height, Player.y + Player.ydelt * dt)
   end
-  
+
+  -- North West
+  if Player.xdelt < 0 and Player.ydelt > 0 then
+  end
+
+  -- North East
+  if Player.xdelt > 0 and Player.ydelt > 0 then
+  end
+
+  -- South West
+  if Player.xdelt < 0 and Player.ydelt < 0 then
+  end
+
+  -- South East
+  if Player.xdelt > 0 and Player.ydelt < 0 then
+  end
 end
 
 function Player.render()

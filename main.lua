@@ -5,6 +5,9 @@ require 'src/Dependencies' --All libraries that are require will be placed here
 WINDOW_HEIGHT = 720
 WINDOW_WIDTH = 840
 
+VIRTUAL_HEIGHT = 400
+VIRTUAL_WIDTH = 480
+
 PLAYER_SPEED = 200
 
 --non constants
@@ -20,12 +23,13 @@ function love.load()
   love.window.setTitle('Covid Conquer')
   love.graphics.setDefaultFilter('nearest', 'nearest')
   
-  love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
+  push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
     fullscreen = false,
-    vsync = true
+    vsync = false
   })
 
-  -- Place the source font in here
+  push:setBorderColor(0, 0, 0)
+
   playerUp = 'W'
   playerDown = 'S'
   playerLeft = 'A'
@@ -66,22 +70,24 @@ function love.keyboard.wasPressed(key)
 end
 
 function love.update(dt)
-  
   gStateMachine:update(dt)
+
   Player.update(dt)
-  
 end
 
 function love.draw()
+  push:apply("start")
 
   gStateMachine:render()
+
+  push:apply("end")
 
 end
 
 function love.mousepressed(x, y, button)
+  x, y = push:toGame(x, y)
 
   gStateMachine:mouse(x, y, button)
-
 end
 
 
