@@ -9,8 +9,6 @@ PLAYER_SPEED = 200
 
 --non constants
 click_count = 0
-virusDamage = 0
-
 
 function love.load()
   --Some Object Declaration
@@ -48,6 +46,8 @@ function love.load()
 
   love.keyboard.keysPressed = {}
   love.mouse.mousepressed = {}
+  
+  
 
 end
 

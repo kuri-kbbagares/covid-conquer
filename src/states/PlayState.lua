@@ -82,13 +82,13 @@ function PlayState:render()
     love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.printf('Click Count: ' .. click_count, 0, 0, WINDOW_WIDTH)
     love.graphics.printf('Virus: ' .. #virus, 0, 20, WINDOW_WIDTH)
-    love.graphics.printf('Damage: ' .. virusDamage, 0, 40, WINDOW_WIDTH)
+    love.graphics.printf('Damage: ' .. tostring(virusDamage), 0, 40, WINDOW_WIDTH)
 
-    love.graphics.printf('Player X: ', 0, 100, WINDOW_WIDTH)
-    love.graphics.printf('Player Y: ', 0, 120, WINDOW_WIDTH)
+    love.graphics.printf('Player X: '.. tostring(math.floor(Player.x)), 0, 100, WINDOW_WIDTH)
+    love.graphics.printf('Player Y: '.. tostring(math.floor(Player.y)), 0, 120, WINDOW_WIDTH)
 
-    love.graphics.printf('Mouse X: ', 0, 160, WINDOW_WIDTH)
-    love.graphics.printf('Mouse Y: ', 0, 180, WINDOW_WIDTH)
+    love.graphics.printf('Virus X: ', 0, 160, WINDOW_WIDTH)
+    love.graphics.printf('Virus Y: ', 0, 180, WINDOW_WIDTH)
 
     love.graphics.printf('Covid Conquer - BETA', 0, WINDOW_HEIGHT - 20, WINDOW_WIDTH, 'right')
 
