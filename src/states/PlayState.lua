@@ -1,6 +1,9 @@
 PlayState = Class{__includes = BaseState}
 
 
+frame = 1
+num_of_frames = 8
+
 function PlayState:init()
   MENU_PLAY = true
   MENU = false
@@ -87,6 +90,8 @@ function PlayState:update(dt)
 
     if love.keyboard.isDown(string.lower(playerUp)) then
       Player.ydelt = -PLAYER_SPEED
+      frame = frame + 1
+      if frame > num_of_frames then frame = 1 end
     elseif love.keyboard.isDown(string.lower(playerDown)) then
       Player.ydelt = PLAYER_SPEED
     else

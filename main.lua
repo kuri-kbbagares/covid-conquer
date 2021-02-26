@@ -1,7 +1,7 @@
 require 'src/Dependencies' --All libraries that are require will be placed here
 
 
-function love.load()
+function love.load(arg)
   --Some Object Declaration
   math.randomseed(os.time())
 
@@ -28,9 +28,15 @@ function love.load()
     ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30)
   }
 
+
   gTextures = {
-    ['virus'] = love.graphics.newImage('graphics/veerus.png')
+    ['virus'] = love.graphics.newImage('graphics/veerus.png'),
+    ['player_atlas'] = love.graphics.newImage('graphics/player_atlas.png')
   }
+  
+   gQuads = {
+    ['player'] = GenerateQuads(gTextures['player_atlas'], 63, 63)
+    }
 
   gStateMachine = StateMachine{
     ['menu'] = function () return MenuState() end,

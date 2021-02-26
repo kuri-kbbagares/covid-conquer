@@ -1,5 +1,31 @@
 Player = {}
 
+--[[local fps = 15
+local animation_timer = 1/fps
+local frame = 1
+local num_of_frames = 8
+
+local yoffset 
+
+
+function animation(dt)
+  --(Bagares) Small Fucntion I made fo testing purpose
+
+  
+  animation_timer = animation_timer - dt
+  
+  if animation_timer <= 0 then
+    animation_timer = 1 / fps
+    frame = frame + 1
+    if frame > num_of_frames then
+      frame = 1
+    end
+  end
+  
+end
+
+]]--
+
 function Player.load()
   Player.x = VIRTUAL_WIDTH / 2
   Player.y = VIRTUAL_HEIGHT / 2
@@ -43,11 +69,14 @@ function Player.update(dt)
   -- South East
   if Player.xdelt > 0 and Player.ydelt < 0 then
   end
+  
+  --animation(dt)
 end
 
 function Player.render()
-  love.graphics.setColor(0,0,0,1)
-  love.graphics.rectangle('fill', Player.x, Player.y, Player.width, Player.height)
+  --love.graphics.setColor(0,0,0,1)
+  --love.graphics.rectangle('fill', Player.x, Player.y, Player.width, Player.height)
+  love.graphics.draw(gTextures['player_atlas'], gQuads['player'][frame], Player.x + 10, Player.y + 5, 0, 1, 1, 31, 31)
 
   love.graphics.setColor(0,0,1,1)
   love.graphics.circle('line', Player.x + (Player.width / 2), Player.y + (Player.height / 2), Player.radius)
