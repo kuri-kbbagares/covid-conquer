@@ -8,7 +8,7 @@ function MenuState:init()
         height = 40,
         textcolor = {1,1,1,1},
 
-        script = function() gStateMachine:change('play') end},
+        script = function() reset() gStateMachine:change('play') end},
         
     {   x = VIRTUAL_WIDTH * 0.45,
         y = VIRTUAL_HEIGHT * 0.55,

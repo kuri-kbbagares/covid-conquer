@@ -1,18 +1,5 @@
 require 'src/Dependencies' --All libraries that are require will be placed here
 
---Constant Values here vVv
-
-WINDOW_HEIGHT = 720
-WINDOW_WIDTH = 840
-
-VIRTUAL_HEIGHT = 400
-VIRTUAL_WIDTH = 480
-
-PLAYER_SPEED = 200
-
---non constants
-click_count = 0
-virusDamage = 0
 
 function love.load()
   --Some Object Declaration
@@ -55,7 +42,6 @@ function love.load()
   Player.load()
 
   love.keyboard.keysPressed = {}
-  love.mouse.mousepressed = {}
 
 end
 
@@ -67,17 +53,15 @@ function love.keypressed(key)
 end
 
 function love.keyboard.wasPressed(key)
-  if love.keyboard.keysPressed[key] then
-    return true
-  else
-    return false
-  end
+  return love.keyboard.keysPressed[key]
 end
 
 function love.update(dt)
   gStateMachine:update(dt)
 
   Player.update(dt)
+
+  love.keyboard.keysPressed = {}
 end
 
 function love.draw()

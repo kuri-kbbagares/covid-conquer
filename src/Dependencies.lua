@@ -1,8 +1,13 @@
 --DEPENDENCIES
 
+
+
 --In library directory
 push = require 'library/push'
 Class = require 'library/class'
+
+-- Constant variables are stored in hereby
+require 'source/constants'
 
 --In objects directory
 require 'source/objects/player'
@@ -21,4 +26,7 @@ require 'src/states/BaseState'
 require 'src/states/MenuState'
 require 'src/states/OptionState'
 require 'src/states/PlayState'
+
+-- For resetting entities
+require 'source/reset'
 

@@ -4,12 +4,27 @@ function PlayMenu:init(clickScript)
     self.clickScript = clickScript
 end
 
+function PlayMenu:update(dt)
+    local x, y = love.mouse.getPosition()
+    x, y = push:toGame(x, y)
+
+    if x and y ~= nil then
+      for i, v in ipairs(self.clickScript) do
+        if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
+            self.clickScript[i].textcolor = {1,0,0,1}
+        else
+            self.clickScript[i].textcolor = {1,1,1,1}
+        end
+      end
+    end
+end
+
 function PlayMenu:render()
     Player.xdelt = 0
     Player.ydelt = 0
     love.graphics.rectangle('fill', VIRTUAL_WIDTH * 0.20, VIRTUAL_HEIGHT * 0.10, 300, 300)
 
-    if virusDamage < 1000 then
+    if virusDamage < 100 then
         love.graphics.setFont(gFonts['largeFont'])
         love.graphics.setColor(self.clickScript[3].textcolor)
         love.graphics.printf('Game Paused', 0, VIRTUAL_HEIGHT * 0.2, VIRTUAL_WIDTH, 'center')
@@ -34,5 +49,21 @@ function PlayMenu:render()
         love.graphics.printf('Score: ' .. Scoring.score, 0, VIRTUAL_HEIGHT * 0.4, VIRTUAL_WIDTH, 'center')
         love.graphics.printf('Viruses Killed: ' .. Scoring.virus, 0, VIRTUAL_HEIGHT * 0.5, VIRTUAL_WIDTH, 'center')
 
+        love.graphics.setFont(gFonts['largeFont'])
+        love.graphics.setColor(self.clickScript[4].textcolor)
+        love.graphics.printf('Retry', self.clickScript[4].x, self.clickScript[4].y, VIRTUAL_WIDTH, 'left')
+
+        love.graphics.setColor(self.clickScript[5].textcolor)
+        love.graphics.printf('Exit', 0, VIRTUAL_HEIGHT * 0.7, VIRTUAL_WIDTH * 0.75, 'right')
+
     end
+end
+
+function PlayMenu:mousepressed(x, y)
+    for i, v in ipairs(self.clickScript) do
+        if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
+            v.script()
+        end
+    end
+
 end

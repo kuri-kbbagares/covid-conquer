@@ -4,19 +4,19 @@
     3 Viruses Killed
         Level:  "Combo 1"
         Score:  x2
-        Duration:   line - (dt * 20) -- less than 2x line
+        Duration:   line - (dt * 20) -- less than 2x line (5 secs)
         Next: 5 viruses
 
     3 + 5 Viruses Killed
         Level:  "Combo 2"
         Score:  x4
-        Duration: line - (dt * 40) -- less than 4x line
+        Duration: line - (dt * 40) -- less than 4x line (2.5 secs)
         Next:   8 viruses
 
     3 + 5 + 7 Viruses Killed
         Level: "Combo 3"
         Score: x8
-        Duration: line - (dt * 80) -- less than 8x line
+        Duration: line - (dt * 80) -- less than 8x line (1.25 secs)
         Next:   Null
 
     ** Time Length is 100px
@@ -127,6 +127,7 @@ function Scoring:mousepressed(x, y)
                 if Scoring.combo >= 3 then
                     Scoring.time = 0
                 end
+                
                 break
             end
         end

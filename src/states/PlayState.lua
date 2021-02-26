@@ -4,6 +4,7 @@ PlayState = Class{__includes = BaseState}
 function PlayState:init()
   MENU_PLAY = true
   MENU = false
+  SPAWN = false
 
   self.cursor = love.mouse.getSystemCursor("crosshair")
   self.clickScript = {
@@ -14,7 +15,7 @@ function PlayState:init()
 
                   script = function() MENU = true end},
 
-                -- Option Buttons 1 (Resume), 2 (Options), 3 (Exit)
+                -- Option Buttons 1 (Resume), 2 (Options), 3 (Exit), 4 (Retry), 5 (Exit)
                 {x = VIRTUAL_WIDTH * 0.45,
                  y = VIRTUAL_HEIGHT * 0.4,
                  width = 85,
@@ -30,7 +31,7 @@ function PlayState:init()
                 textcolor = {1,1,1,1},
 
                 script = function() gStateMachine:change('options') end},
-              
+         
                 {x = VIRTUAL_WIDTH * 0.45,
                  y = VIRTUAL_HEIGHT * 0.6,
                  width = 85,
@@ -41,8 +42,32 @@ function PlayState:init()
                     MENU_PLAY = false
                     gStateMachine:change('menu') 
                   end
-                }}
-  
+                },
+
+                {x = VIRTUAL_WIDTH * 0.26,
+                 y = VIRTUAL_HEIGHT * 0.7,
+                 width = 70,
+                 height = 30,
+                 textcolor = {1,1,1,1},
+
+                 script = function()
+                    SPAWN = false
+                    reset()
+                 end},
+
+                {x = VIRTUAL_WIDTH * 0.65,
+                y = VIRTUAL_HEIGHT * 0.7,
+                width = 70,
+                height = 30,
+                textcolor = {1,1,1,1},
+
+                script = function()
+                  SPAWN = false
+                  reset()
+                  gStateMachine:change('menu')
+                end},
+              }
+
   PlayMenu:init(self.clickScript)
   -- From src/Scoring.lua, initializes the scores variable
   Scoring:init()
@@ -69,27 +94,20 @@ function PlayState:update(dt)
     end
 
     if love.keyboard.wasPressed('escape') then
-      love.event.quit()
+      MENU = not MENU
     end
 
-    -- [Pandan] - ATTENTION: Temporary Fix, please make an alternative
     if love.keyboard.wasPressed('return') then
+      SPAWN = true
+    end
+
+    if SPAWN == true then
       virusUpdate(dt)
     end
 
   else
-    local x, y = love.mouse.getPosition()
-    x, y = push:toGame(x, y)
-    
-    if x and y ~= nil then
-      for i, v in ipairs(self.clickScript) do
-        if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
-            self.clickScript[i].textcolor = {1,0,0,1}
-        else
-            self.clickScript[i].textcolor = {1,1,1,1}
-        end
-      end
-    end
+    PlayMenu:update(dt)
+
   end
 end
 
@@ -98,17 +116,23 @@ end
 function PlayState:render()
     love.graphics.clear(245/255, 255/255, 255/255, 255/255)
     love.mouse.setCursor(self.cursor)
-    
-    if love.keyboard.wasPressed('return') then
+
+    if SPAWN == true then
       virusRender()
+    else
+      love.graphics.setFont(gFonts['largeFont'])
+      love.graphics.setColor(0, 0, 0, 1)
+      love.graphics.printf('Press Enter to fight', 0, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'center')
+      love.graphics.setColor(1, 0, 0, 1)
+      love.graphics.printf('Enter', VIRTUAL_WIDTH * 0.39, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'left')
     end
+
     Player.render()
     Scoring:render()
-
-    love.graphics.setColor(0, 0, 0, 1)
     displayClickCount(click_count)
 
     love.graphics.setFont(gFonts['mediumFont'])
+    love.graphics.setColor(0, 0, 0, 1)
     love.graphics.printf('Click Count: ' .. click_count, 0, 0, VIRTUAL_WIDTH)
     love.graphics.printf('Virus: ' .. #virus, 0, 20, VIRTUAL_WIDTH)
     love.graphics.printf('Damage: ' .. virusDamage, 0, 40, VIRTUAL_WIDTH)
@@ -126,17 +150,14 @@ function PlayState:render()
 
     love.graphics.rectangle('fill', self.clickScript['option'].x, self.clickScript['option'].y, self.clickScript['option'].width, self.clickScript['option'].height)
 
-    -- [Pandan] - Menu Panel
-    if virusDamage < 1000 then
+    if virusDamage < 100 then
       if MENU == true then
         PlayMenu:render()
       end
-
     else
       MENU = true
       PlayMenu:render()
     end
-
 end
 
 function PlayState:mouse(x, y, button)
@@ -150,23 +171,18 @@ function PlayState:mouse(x, y, button)
         if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
           MENU = not MENU
         end
-      else
-
       end
 
       if MENU == true then
-        for i, v in ipairs(self.clickScript) do
-          if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
-              v.script()
-          end
-        end
+        PlayMenu:mousepressed(x, y)
 
       else
         -- To get a score and kill virus
-        Scoring:mousepressed(x,y)
+        Scoring:mousepressed(x, y)
 
       end
         click_count = click_count + 1
+
     end
   end
 end
