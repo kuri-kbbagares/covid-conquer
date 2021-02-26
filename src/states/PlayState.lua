@@ -150,7 +150,7 @@ function PlayState:render()
 
     love.graphics.rectangle('fill', self.clickScript['option'].x, self.clickScript['option'].y, self.clickScript['option'].width, self.clickScript['option'].height)
 
-    if virusDamage < 100 then
+    if virusDamage < DEATH then
       if MENU == true then
         PlayMenu:render()
       end

@@ -9,7 +9,7 @@ function Player.load()
   Player.xdelt = 0
 
   -- [Pandan] - I've come up an idea that we should make a range
-  Player.radius = 100
+  Player.radius = 50
 end
 
 function Player.update(dt)

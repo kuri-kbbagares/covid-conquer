@@ -24,7 +24,7 @@ function PlayMenu:render()
     Player.ydelt = 0
     love.graphics.rectangle('fill', VIRTUAL_WIDTH * 0.20, VIRTUAL_HEIGHT * 0.10, 300, 300)
 
-    if virusDamage < 100 then
+    if virusDamage < DEATH then
         love.graphics.setFont(gFonts['largeFont'])
         love.graphics.setColor(self.clickScript[3].textcolor)
         love.graphics.printf('Game Paused', 0, VIRTUAL_HEIGHT * 0.2, VIRTUAL_WIDTH, 'center')
@@ -60,10 +60,17 @@ function PlayMenu:render()
 end
 
 function PlayMenu:mousepressed(x, y)
-    for i, v in ipairs(self.clickScript) do
-        if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
-            v.script()
+    if virusDamage < DEATH then
+        for i = 1, 3 do
+            if x > self.clickScript[i].x and x < self.clickScript[i].x  + self.clickScript[i].width and y > self.clickScript[i].y and y < self.clickScript[i].y + self.clickScript[i].height then
+                self.clickScript[i].script()
+            end
+        end
+    else
+        for i = 4, 5 do
+            if x > self.clickScript[i].x and x < self.clickScript[i].x  + self.clickScript[i].width and y > self.clickScript[i].y and y < self.clickScript[i].y + self.clickScript[i].height then
+                self.clickScript[i].script()
+            end
         end
     end
-
 end

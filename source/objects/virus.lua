@@ -3,7 +3,7 @@ Virus = Class{}
 virus = {} --(Bagares)Table1: for storing the number of virus
 virus.timeSpawn = 0
 virus.timerSpawnLimit = math.random(3,5)
-virus.amount = math.random(3, 7)
+virus.amount = math.random(0, 20)
 
 virus.radius = 20
 virus.damage = 0
@@ -23,10 +23,10 @@ function generateVirus(dt)
   virus.timeSpawn = virus.timeSpawn + dt
   if virus.timeSpawn > virus.timerSpawnLimit then
     for i=1, virus.amount do
-      virus.spawn(VIRTUAL_WIDTH/2 - 25, math.random(-25, -100))
+      virus.spawn(math.random(-480, 480), math.random( -400, 400))
     end
     virus.timerSpawnLimit= math.random(3,5)
-    virus.amount = math.random(3, 7)
+    virus.amount = math.random(0, 20)
     virus.timeSpawn = 0
   end
 end
@@ -34,26 +34,26 @@ end
 function virus.AI(dt)
   for i, v in ipairs(virus) do
     --x-axis
-    if Player.x + Player.width/2 < v.x + v.radius / 2 then
+    if Player.x + Player.width/2 < v.x + v.radius/2 then
       if v.xdelt > -virus.speed then
         v.xdelt = v.xdelt - virus.speed * dt
       end
     end
     
-    if Player.x + Player.width/2 > v.x + v.radius / 2 then
+    if Player.x + Player.width/2 > v.x + v.radius/2 then
       if v.xdelt < virus.speed then
         v.xdelt = v.xdelt + virus.speed * dt
       end
     end
     
     --y-axis
-    if Player.y + Player.height/2 < v.y + v.radius / 2 then
+    if Player.y + Player.height/2 < v.y + v.radius/2 then
       if v.ydelt > -virus.speed then
         v.ydelt = v.ydelt - virus.speed * dt
       end
     end
     
-    if Player.y + Player.height/2 > v.y + v.radius / 2 then
+    if Player.y + Player.height/2 > v.y + v.radius/2 then
       if v.ydelt < virus.speed then
         v.ydelt = v.ydelt + virus.speed * dt
       end
