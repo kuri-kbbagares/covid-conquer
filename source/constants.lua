@@ -10,3 +10,6 @@ PLAYER_SPEED = 200
 --non constants
 click_count = 0
 virusDamage = 0
+
+-- Player dies if receives a more than or equal this damage
+DEATH = 10

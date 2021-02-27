@@ -141,6 +141,8 @@ function PlayState:render()
     love.graphics.clear(245/255, 255/255, 255/255, 255/255)
     love.mouse.setCursor(self.cursor)
 
+    Player.render()
+
     if SPAWN == true then
       virusRender()
     else
@@ -152,7 +154,6 @@ function PlayState:render()
       love.graphics.setColor(0,0,0,0)
     end
 
-    Player.render()
     Scoring:render()
     displayClickCount(click_count)
 

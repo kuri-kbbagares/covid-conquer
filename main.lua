@@ -31,7 +31,8 @@ function love.load(arg)
 
   gTextures = {
     ['virus'] = love.graphics.newImage('graphics/veerus.png'),
-    ['player_atlas'] = love.graphics.newImage('graphics/player_atlas.png')
+    ['player_atlas'] = love.graphics.newImage('graphics/player_atlas.png'),
+    ['particles'] = love.graphics.newImage('graphics/particle.png'),
   }
   
   gQuads = {

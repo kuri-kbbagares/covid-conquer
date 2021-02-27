@@ -93,6 +93,8 @@ function virus.maxSpawnValue(dt)
 end
 
 function virus.draw()
+  love.graphics.setColor(255, 255, 255, 255)
+  
   for i, v in ipairs(virus) do
     love.graphics.draw(gTextures['virus'], v.x - 20, v.y - 20)
 

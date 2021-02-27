@@ -10,6 +10,7 @@ Class = require 'library/class'
 require 'source/constants'
 
 --In objects directory
+require 'source/objects/particles'
 require 'source/objects/player'
 require 'source/objects/Virus'
 

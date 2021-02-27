@@ -38,6 +38,7 @@ function Scoring:init()
     self.color = 255
     self.limit = VIRTUAL_WIDTH - 100 + Scoring.time
 
+    Particles:init()
 end
 
 function Scoring:update(dt)
@@ -62,9 +63,13 @@ function Scoring:update(dt)
         self.color = math.floor(self.color - dt * 200)
     end
 
+    Particles:update(dt)
+
 end
 
 function Scoring:render()
+    Particles:render()
+
     love.graphics.setColor(math.floor(self.color)/255, 0, 0, 255)
     love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.printf(self.score, 0, VIRTUAL_HEIGHT * 0.01, VIRTUAL_WIDTH, 'right')
@@ -119,6 +124,8 @@ function Scoring:mousepressed(x, y)
 
                 -- Fade in color effect of self.score
                 self.color = 255
+
+                Particles:spray(x, y)
 
                 Scoring.score = Scoring.score + self.kill
                 Scoring.combo = Scoring.combo + 1
