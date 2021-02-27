@@ -41,7 +41,7 @@ function love.load(arg)
   
   gSounds = {
     --Constantly Playing
-    ['bgm'] = love.audio.newSource('sounds/bgm.wav', 'static'),
+    ['bgm'] = love.audio.newSource('sounds/bgm.wav', 'stream'),
     --Played On-trigger
     ['click'] = love.audio.newSource('sounds/click.wav', 'static'),
     ['on-death'] = love.audio.newSource('sounds/death.wav', 'static'),

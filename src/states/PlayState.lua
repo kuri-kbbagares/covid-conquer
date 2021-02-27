@@ -176,7 +176,7 @@ function PlayState:render()
 
     love.graphics.rectangle('fill', self.clickScript['option'].x, self.clickScript['option'].y, self.clickScript['option'].width, self.clickScript['option'].height)
 
-    if virusDamage < 100 then
+    if virusDamage < DEATH then
       if MENU == true then
         PlayMenu:render()
       end
@@ -193,10 +193,16 @@ function PlayState:mouse(x, y, button)
     -- If LMB was clicked
     if button == 1 then
         -- Pause Button
-      if virusDamage < 1000 then
-        if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
-          MENU = not MENU
-        end
+      if virusDamage < DEATH then
+          local clickscript = self.clickScript['option']
+          local cX = clickscript.x
+          local cY = clickscript.y
+          local width = clickscript.width
+          local height = clickscript.height
+          
+          if x > cX and x < cX + width and y > cY and y < cY + height then
+            clickscript.script()
+          end
       end
 
       if MENU == true then
@@ -206,10 +212,9 @@ function PlayState:mouse(x, y, button)
         -- To get a score and kill virus
         gSounds['click']:play()
         Scoring:mousepressed(x, y)
-
       end
         click_count = click_count + 1
-
+        
     end
   end
 end
