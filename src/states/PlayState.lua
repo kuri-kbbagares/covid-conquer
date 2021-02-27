@@ -1,10 +1,5 @@
 PlayState = Class{__includes = BaseState}
 
---(BAGARES) variables needed to change animation
-frame = 1
-num_of_frames = 8
-frame_angle = 0
-
 function PlayState:init()
   MENU_PLAY = true
   MENU = false
@@ -131,8 +126,7 @@ function PlayState:update(dt)
 
   else
     PlayMenu:update(dt)
-
-  end
+end
 end
 
 -- [Pandan] - Every allocations I used was percentages of WINDOW_WIDTH and a WINDOW_HEIGHT. Feel free to change this if this is not efficient
@@ -169,6 +163,9 @@ function PlayState:render()
     local mx, my = love.mouse.getPosition()
     love.graphics.printf('Mouse X: ' .. mx, 0, 160, VIRTUAL_WIDTH)
     love.graphics.printf('Mouse Y: ' .. my, 0, 180, VIRTUAL_WIDTH)
+    --(BAGARES) used only for testing purpose
+    --love.graphics.printf('maxVirusToSpawn: ' .. maxValueToSpawn, 0, 200, VIRTUAL_WIDTH)
+    --love.graphics.printf('minVirusToSpawn: ' .. minValueToSpawn, 0, 220, VIRTUAL_WIDTH)
 
     love.graphics.printf('Covid Conquer - BETA', 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'right')
 
@@ -218,3 +215,5 @@ function PlayState:mouse(x, y, button)
     end
   end
 end
+
+

@@ -1,31 +1,5 @@
 Player = {}
 
---[[local fps = 15
-local animation_timer = 1/fps
-local frame = 1
-local num_of_frames = 8
-
-local yoffset 
-
-
-function animation(dt)
-  --(Bagares) Small Fucntion I made fo testing purpose
-
-  
-  animation_timer = animation_timer - dt
-  
-  if animation_timer <= 0 then
-    animation_timer = 1 / fps
-    frame = frame + 1
-    if frame > num_of_frames then
-      frame = 1
-    end
-  end
-  
-end
-
-]]--
-
 function Player.load()
   Player.x = VIRTUAL_WIDTH / 2
   Player.y = VIRTUAL_HEIGHT / 2
@@ -79,12 +53,11 @@ function Player.update(dt)
 
   -- North East
   elseif Player.xdelt > 0 and Player.ydelt < 0 then
-    frame_angle = 45
+      frame_angle = 45
       frame = frame + 1
       if frame > num_of_frames then frame = 1 end
   end
   
-  --animation(dt)
 end
 
 function Player.render()

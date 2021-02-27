@@ -40,6 +40,7 @@ function PlayMenu:render()
         love.graphics.printf('Exit', 0, self.clickScript[3].y, VIRTUAL_WIDTH, 'center')
 
     else
+        gSounds['on-death']:play()
         love.graphics.setFont(gFonts['medium_titleFont'])
         love.graphics.setColor(1,0,0,1)
         love.graphics.printf('GAME OVER', 0, VIRTUAL_HEIGHT * 0.2, VIRTUAL_WIDTH, 'center')

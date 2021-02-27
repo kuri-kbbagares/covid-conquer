@@ -45,10 +45,11 @@ function love.load(arg)
     --Played On-trigger
     ['click'] = love.audio.newSource('sounds/click.wav', 'static'),
     ['on-death'] = love.audio.newSource('sounds/death.wav', 'static'),
-    ['damage-over-time_player'] = love.audio.newSource('sounds/damage.wav', 'static')
   }
   
   gSounds['bgm']:setLooping(true) 
+  gSounds['on-death']:setLooping(false)
+  
   gSounds['bgm']:play()
 
   gStateMachine = StateMachine{
@@ -59,6 +60,7 @@ function love.load(arg)
 
   gStateMachine:change('menu')
   Player.load()
+  virus.Load()
 
   love.keyboard.keysPressed = {}
 

@@ -5,8 +5,8 @@ Virus = Class{}
 virus = {} --(Bagares)Table1: for storing the number of virus
 virus.timeSpawn = 0
 virus.timerSpawnLimit = math.random(3,5)
-maxValueToSpawn = 5
-virus.amount = math.random(3, maxValueToSpawn)
+
+virus.amount = math.random(minValueToSpawn, maxValueToSpawn)
 
 virus.xcoordinateSpawn = math.random(0, 480)
 
@@ -32,8 +32,8 @@ function generateVirus(dt)
       virus.spawn(virus.xcoordinateSpawn/2 - 25, math.random(-25, -50))
     end
     virus.timerSpawnLimit= math.random(3,5)
-    
-    virus.amount = math.random(3, 7)
+    virus.xcoordinateSpawn = math.random(100, VIRTUAL_WIDTH)
+    virus.amount = math.random(minValueToSpawn, maxValueToSpawn)
     virus.timeSpawn = 0
   end
 end
@@ -84,13 +84,7 @@ function virus.movement(dt)
   end
 end
 
-function virus.maxSpawnValue(dt)
-  
-  if Scoring.score == 10000 then 
-    maxValueToSpawn = maxValueToSpawn * 5 
-  end
-  
-end
+
 
 function virus.draw()
   love.graphics.setColor(255, 255, 255, 255)
@@ -102,11 +96,22 @@ function virus.draw()
   end
 end
 
+function virus.maxSpawnValue()
+  
+  if Scoring.score >= 10000 then 
+    maxValueToSpawn = maxValueToSpawn * 10 
+    minValueToSpawn = minValueToSpawn * 10
+  end
+  
+end
 
 --Main Function (in main)
 
+function virus.Load()
+  virus.maxSpawnValue()
+end
+
 function virusUpdate(dt)
-  virus.maxSpawnValue(dt)
   generateVirus(dt)
   
   virus.movement(dt)
@@ -116,5 +121,4 @@ end
 
 function virusRender()
   virus.draw()
-
 end
