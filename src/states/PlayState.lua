@@ -1,8 +1,9 @@
 PlayState = Class{__includes = BaseState}
 
-
+--(BAGARES) variables needed to change animation
 frame = 1
 num_of_frames = 8
+frame_angle = 0
 
 function PlayState:init()
   MENU_PLAY = true
@@ -82,18 +83,36 @@ function PlayState:update(dt)
 
     if love.keyboard.isDown(string.lower(playerLeft)) then
       Player.xdelt = -PLAYER_SPEED
+      --(Bagares) Animation Parameters
+      frame_angle = 270
+      frame = frame + 1
+      if frame > num_of_frames then frame = 1 end
+      
     elseif love.keyboard.isDown(string.lower(playerRight)) then
       Player.xdelt = PLAYER_SPEED
+      --(Bagares) Animation Parameters
+      frame_angle = 90
+      frame = frame - 1
+      if frame <= 0 then frame = 8 end
+      
     else
       Player.xdelt = 0
     end
 
     if love.keyboard.isDown(string.lower(playerUp)) then
       Player.ydelt = -PLAYER_SPEED
+       --(Bagares) Animation Parameters (UP ANIMATION)
+      frame_angle = 0
       frame = frame + 1
       if frame > num_of_frames then frame = 1 end
+      
     elseif love.keyboard.isDown(string.lower(playerDown)) then
       Player.ydelt = PLAYER_SPEED
+       --(Bagares) Animation Parameters (DOWN ANIMATION)
+      frame_angle = 180
+      frame = frame - 1
+      if frame <= 0 then frame = 8 end
+      
     else
       Player.ydelt = 0
     end
@@ -130,6 +149,7 @@ function PlayState:render()
       love.graphics.printf('Press Enter to fight', 0, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'center')
       love.graphics.setColor(1, 0, 0, 1)
       love.graphics.printf('Enter', VIRTUAL_WIDTH * 0.39, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'left')
+      love.graphics.setColor(0,0,0,0)
     end
 
     Player.render()

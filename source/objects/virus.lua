@@ -1,10 +1,16 @@
 Virus = Class{}
 
+
+--(BAGARES) Variables needed for virus to spawn
 virus = {} --(Bagares)Table1: for storing the number of virus
 virus.timeSpawn = 0
 virus.timerSpawnLimit = math.random(3,5)
-virus.amount = math.random(3, 7)
+maxValueToSpawn = 5
+virus.amount = math.random(3, maxValueToSpawn)
 
+virus.xcoordinateSpawn = math.random(0, 480)
+
+---(BAGARES) Virus Class Parameters
 virus.radius = 20
 virus.damage = 0
 
@@ -23,9 +29,10 @@ function generateVirus(dt)
   virus.timeSpawn = virus.timeSpawn + dt
   if virus.timeSpawn > virus.timerSpawnLimit then
     for i=1, virus.amount do
-      virus.spawn(VIRTUAL_WIDTH/2 - 25, math.random(-25, -100))
+      virus.spawn(virus.xcoordinateSpawn/2 - 25, math.random(-25, -50))
     end
     virus.timerSpawnLimit= math.random(3,5)
+    
     virus.amount = math.random(3, 7)
     virus.timeSpawn = 0
   end
@@ -77,6 +84,14 @@ function virus.movement(dt)
   end
 end
 
+function virus.maxSpawnValue(dt)
+  
+  if Scoring.score == 10000 then 
+    maxValueToSpawn = maxValueToSpawn * 5 
+  end
+  
+end
+
 function virus.draw()
   for i, v in ipairs(virus) do
     love.graphics.draw(gTextures['virus'], v.x - 20, v.y - 20)
@@ -89,7 +104,9 @@ end
 --Main Function (in main)
 
 function virusUpdate(dt)
+  virus.maxSpawnValue(dt)
   generateVirus(dt)
+  
   virus.movement(dt)
   virus.AI(dt)
   

@@ -54,20 +54,34 @@ function Player.update(dt)
   end
 
   -- [Pandan] This was supposed to be a code for player leaning on various directions
-  -- North West
-  if Player.xdelt < 0 and Player.ydelt > 0 then
-  end
-
-  -- North East
-  if Player.xdelt > 0 and Player.ydelt > 0 then
-  end
-
-  -- South West
-  if Player.xdelt < 0 and Player.ydelt < 0 then
-  end
+  
 
   -- South East
-  if Player.xdelt > 0 and Player.ydelt < 0 then
+  if Player.xdelt > 0 and Player.ydelt > 0 then
+    --(Bagares) Animation Parameters
+      frame_angle = 135
+      frame = frame + 1
+      if frame > num_of_frames then frame = 1 end
+
+  -- North west
+  elseif Player.xdelt < 0 and Player.ydelt < 0 then
+    --(Bagares) Animation Parameters
+      frame_angle = 315
+      frame = frame + 1
+      if frame > num_of_frames then frame = 1 end
+  
+  -- South West
+  elseif Player.xdelt < 0 and Player.ydelt > 0 then
+      --(Bagares) Animation Parameters
+      frame_angle = 225
+      frame = frame + 1
+      if frame > num_of_frames then frame = 1 end
+
+  -- North East
+  elseif Player.xdelt > 0 and Player.ydelt < 0 then
+    frame_angle = 45
+      frame = frame + 1
+      if frame > num_of_frames then frame = 1 end
   end
   
   --animation(dt)
@@ -76,7 +90,7 @@ end
 function Player.render()
   --love.graphics.setColor(0,0,0,1)
   --love.graphics.rectangle('fill', Player.x, Player.y, Player.width, Player.height)
-  love.graphics.draw(gTextures['player_atlas'], gQuads['player'][frame], Player.x + 10, Player.y + 5, 0, 1, 1, 31, 31)
+  love.graphics.draw(gTextures['player_atlas'], gQuads['player'][frame], Player.x + 10, Player.y + 5, math.rad(frame_angle), 1, 1, 31, 31)
 
   love.graphics.setColor(0,0,1,1)
   love.graphics.circle('line', Player.x + (Player.width / 2), Player.y + (Player.height / 2), Player.radius)
