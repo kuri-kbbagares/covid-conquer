@@ -34,9 +34,18 @@ function love.load(arg)
     ['player_atlas'] = love.graphics.newImage('graphics/player_atlas.png')
   }
   
-   gQuads = {
+  gQuads = {
     ['player'] = GenerateQuads(gTextures['player_atlas'], 63, 63)
-    }
+  }
+  
+  gSounds = {
+    --Constantly Playing
+    ['bgm'] = love.audio.newSource('sounds/bgm.wav'),
+    --Played On-trigger
+    ['kill-virus'] = love.audio.newSource('sounds/kill.wav'),
+    ['on-death'] = love.audio.newSource('sounds/death.wav'),
+    ['damage-over-time_player'] = love.audio.newSource('sounds/damage.wav')
+  }
 
   gStateMachine = StateMachine{
     ['menu'] = function () return MenuState() end,
