@@ -40,12 +40,15 @@ function love.load(arg)
   
   gSounds = {
     --Constantly Playing
-    ['bgm'] = love.audio.newSource('sounds/bgm.wav'),
+    ['bgm'] = love.audio.newSource('sounds/bgm.wav', 'static'),
     --Played On-trigger
-    ['kill-virus'] = love.audio.newSource('sounds/kill.wav'),
-    ['on-death'] = love.audio.newSource('sounds/death.wav'),
-    ['damage-over-time_player'] = love.audio.newSource('sounds/damage.wav')
+    ['kill-virus'] = love.audio.newSource('sounds/kill.wav', 'static'),
+    ['on-death'] = love.audio.newSource('sounds/death.wav', 'static'),
+    ['damage-over-time_player'] = love.audio.newSource('sounds/damage.wav', 'static')
   }
+  
+  gSounds['bgm']:setLooping(true) 
+  gSounds['bgm']:play()
 
   gStateMachine = StateMachine{
     ['menu'] = function () return MenuState() end,

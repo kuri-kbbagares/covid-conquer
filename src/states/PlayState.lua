@@ -203,6 +203,7 @@ function PlayState:mouse(x, y, button)
 
       else
         -- To get a score and kill virus
+        gSounds['kill-virus']:play()
         Scoring:mousepressed(x, y)
 
       end
