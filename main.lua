@@ -35,14 +35,14 @@ function love.load(arg)
   }
   
   gQuads = {
-    ['player'] = GenerateQuads(gTextures['player_atlas'], 63, 63)
+    ['player'] = GenerateQuads(gTextures['player_atlas'], 64, 64)
   }
   
   gSounds = {
     --Constantly Playing
     ['bgm'] = love.audio.newSource('sounds/bgm.wav', 'static'),
     --Played On-trigger
-    ['kill-virus'] = love.audio.newSource('sounds/kill.wav', 'static'),
+    ['click'] = love.audio.newSource('sounds/click.wav', 'static'),
     ['on-death'] = love.audio.newSource('sounds/death.wav', 'static'),
     ['damage-over-time_player'] = love.audio.newSource('sounds/damage.wav', 'static')
   }
