@@ -48,11 +48,11 @@ function TitleState:update(dt)
 end
 
 function TitleState:render()
-    love.graphics.clear(0/255, 0/255, 0/255, 0/255)
+    
 
     -- Title
     love.graphics.setFont(gFonts['titleFont'])
-    love.graphics.setColor(1,0,0,1)
+    love.graphics.setColor(255/255, 40/255, 0/255, 1)
     love.graphics.printf('COVID CONQUER', 0, VIRTUAL_HEIGHT * 0.20, VIRTUAL_WIDTH, 'center')
 
 
