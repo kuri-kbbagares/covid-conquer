@@ -11,6 +11,7 @@ require 'source/constants'
 require 'source/objects/particles'
 require 'source/objects/player'
 require 'source/objects/Virus'
+require 'source/objects/background'
 
 --In controls directory
 require 'source/controls/mouse'
