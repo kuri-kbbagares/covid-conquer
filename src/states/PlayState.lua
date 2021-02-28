@@ -136,7 +136,9 @@ function PlayState:render()
     --(BAGARES) used only for testing purpose
     --love.graphics.printf('maxVirusToSpawn: ' .. maxValueToSpawn, 0, 200, VIRTUAL_WIDTH)
     --love.graphics.printf('minVirusToSpawn: ' .. minValueToSpawn, 0, 220, VIRTUAL_WIDTH)
-
+    
+    love.graphics.setFont(gFonts['mediumFont'])
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.printf('Covid Conquer - BETA', 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'right')
 
     love.graphics.setColor(0,0,0,1)
