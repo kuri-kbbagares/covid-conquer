@@ -53,14 +53,13 @@ function love.load(arg)
   gSounds['bgm']:play()
 
   gStateMachine = StateMachine{
-    ['menu'] = function () return MenuState() end,
+    ['title'] = function () return TitleState() end,
     ['options'] = function () return OptionState() end,
     ['play'] = function () return PlayState() end
   }
 
-  gStateMachine:change('menu')
+  gStateMachine:change('title')
   Player.load()
-  virus.Load()
 
   love.keyboard.keysPressed = {}
 

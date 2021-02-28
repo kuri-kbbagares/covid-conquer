@@ -39,7 +39,7 @@ function PlayState:init()
 
                  script = function() 
                     MENU_PLAY = false
-                    gStateMachine:change('menu') 
+                    gStateMachine:change('title') 
                   end
                 },
 
@@ -63,7 +63,7 @@ function PlayState:init()
                 script = function()
                   SPAWN = false
                   reset()
-                  gStateMachine:change('menu')
+                  gStateMachine:change('title')
                 end},
               }
 
@@ -76,41 +76,7 @@ function PlayState:update(dt)
   if MENU == false then
     Scoring:update(dt)
 
-    if love.keyboard.isDown(string.lower(playerLeft)) then
-      Player.xdelt = -PLAYER_SPEED
-      --(Bagares) Animation Parameters
-      frame_angle = 270
-      frame = frame + 1
-      if frame > num_of_frames then frame = 1 end
-      
-    elseif love.keyboard.isDown(string.lower(playerRight)) then
-      Player.xdelt = PLAYER_SPEED
-      --(Bagares) Animation Parameters
-      frame_angle = 90
-      frame = frame - 1
-      if frame <= 0 then frame = 8 end
-      
-    else
-      Player.xdelt = 0
-    end
-
-    if love.keyboard.isDown(string.lower(playerUp)) then
-      Player.ydelt = -PLAYER_SPEED
-       --(Bagares) Animation Parameters (UP ANIMATION)
-      frame_angle = 0
-      frame = frame + 1
-      if frame > num_of_frames then frame = 1 end
-      
-    elseif love.keyboard.isDown(string.lower(playerDown)) then
-      Player.ydelt = PLAYER_SPEED
-       --(Bagares) Animation Parameters (DOWN ANIMATION)
-      frame_angle = 180
-      frame = frame - 1
-      if frame <= 0 then frame = 8 end
-      
-    else
-      Player.ydelt = 0
-    end
+    Player.update(dt)
 
     if love.keyboard.wasPressed('escape') then
       MENU = not MENU
@@ -126,7 +92,7 @@ function PlayState:update(dt)
 
   else
     PlayMenu:update(dt)
-end
+  end
 end
 
 -- [Pandan] - Every allocations I used was percentages of WINDOW_WIDTH and a WINDOW_HEIGHT. Feel free to change this if this is not efficient
@@ -163,6 +129,8 @@ function PlayState:render()
     local mx, my = love.mouse.getPosition()
     love.graphics.printf('Mouse X: ' .. mx, 0, 160, VIRTUAL_WIDTH)
     love.graphics.printf('Mouse Y: ' .. my, 0, 180, VIRTUAL_WIDTH)
+
+    love.graphics.printf(math.floor(virus.increase) .. " secs", 0, 200, VIRTUAL_WIDTH)
     --(BAGARES) used only for testing purpose
     --love.graphics.printf('maxVirusToSpawn: ' .. maxValueToSpawn, 0, 200, VIRTUAL_WIDTH)
     --love.graphics.printf('minVirusToSpawn: ' .. minValueToSpawn, 0, 220, VIRTUAL_WIDTH)

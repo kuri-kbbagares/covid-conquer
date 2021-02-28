@@ -1,5 +1,8 @@
 Virus = Class{}
 
+-- (BAGARES) constants for min value and max value of spawning veerus
+minValueToSpawn = 3
+maxValueToSpawn = 5
 
 --(BAGARES) Variables needed for virus to spawn
 virus = {} --(Bagares)Table1: for storing the number of virus
@@ -11,11 +14,13 @@ virus.amount = math.random(minValueToSpawn, maxValueToSpawn)
 virus.radius = 20
 virus.damage = 0
 
-virus.speed = 1000
+virus.speed = 500
 virus.friction = 7.5
 
 virus.width = 15
 virus.height = 15
+
+virus.increase = 30
 
 function virus.spawn(x, y)
     table.insert(virus, {x = x, y = y, xdelt = 0, ydelt = 0, radius = virus.radius})
@@ -23,6 +28,19 @@ end
 
 function generateVirus(dt)
     virus.timeSpawn = virus.timeSpawn + dt
+
+    -- Virus will increase and its speed every 30 seconds
+    -- It takes me time to figure this out because lua's modulus(%) was so bad
+    virus.increase = virus.increase - dt
+    if math.floor(virus.increase) == 0 then
+        minValueToSpawn = minValueToSpawn + 3
+        maxValueToSpawn = maxValueToSpawn + 3
+        virus.speed = virus.speed + 200
+
+        -- Reset the timer again
+        virus.increase = 30
+    end
+
 
     if virus.timeSpawn > virus.timerSpawnLimit then
         for i = 1, virus.amount do
@@ -84,6 +102,7 @@ function virus.AI(dt)
             virusDamage = virusDamage + 1
         end
     end
+
 end
 
 function virus.movement(dt)
@@ -103,19 +122,6 @@ function virus.draw()
 
         love.graphics.circle('line', v.x, v.y, v.radius)
     end
-end
-
-function virus.maxSpawnValue()
-    if Scoring.score >= 10000 then
-        maxValueToSpawn = maxValueToSpawn * 10 
-        minValueToSpawn = minValueToSpawn * 10
-    end
-end
-
---Main Function (in main)
-
-function virus.Load()
-    virus.maxSpawnValue()
 end
 
 function virusUpdate(dt)

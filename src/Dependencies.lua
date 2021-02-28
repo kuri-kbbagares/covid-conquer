@@ -1,7 +1,5 @@
 --DEPENDENCIES
 
-
-
 --In library directory
 push = require 'library/push'
 Class = require 'library/class'
@@ -24,7 +22,7 @@ require 'src/StateMachine'
 require 'src/Util'
 
 require 'src/states/BaseState'
-require 'src/states/MenuState'
+require 'src/states/TitleState'
 require 'src/states/OptionState'
 require 'src/states/PlayState'
 

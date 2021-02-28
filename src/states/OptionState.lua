@@ -13,7 +13,7 @@ function OptionState:init()
                             gStateMachine:change('play')
                             MENU = true
                         else
-                            gStateMachine:change('menu')
+                            gStateMachine:change('title')
                         end
                     end},
 
