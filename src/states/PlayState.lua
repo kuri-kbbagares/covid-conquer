@@ -5,7 +5,7 @@ function PlayState:init()
   MENU = false
   SPAWN = false
 
-  self.cursor = love.mouse.getSystemCursor("crosshair")
+  self.cursor = love.mouse.getSystemCursor("no")
   self.clickScript = {
     ['option'] = {x = VIRTUAL_WIDTH * 0.02,
                   y = VIRTUAL_HEIGHT * 0.02,
@@ -98,7 +98,7 @@ end
 -- [Pandan] - Every allocations I used was percentages of WINDOW_WIDTH and a WINDOW_HEIGHT. Feel free to change this if this is not efficient
 -- [Pandan] - If possible, change the color schemes in here
 function PlayState:render()
-    love.graphics.clear(245/255, 255/255, 255/255, 255/255)
+    background:render()
     love.mouse.setCursor(self.cursor)
 
     Player.render()
@@ -110,7 +110,7 @@ function PlayState:render()
       love.graphics.setColor(0, 0, 0, 1)
       love.graphics.printf('Press Enter to fight', 0, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'center')
       love.graphics.setColor(1, 0, 0, 1)
-      love.graphics.printf('Enter', VIRTUAL_WIDTH * 0.39, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'left')
+      love.graphics.printf('Enter', VIRTUAL_WIDTH * 0.445, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'left')
       love.graphics.setColor(0,0,0,0)
     end
 
@@ -118,8 +118,8 @@ function PlayState:render()
     displayClickCount(click_count)
 
     love.graphics.setFont(gFonts['mediumFont'])
-    love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.printf('Click Count: ' .. click_count, 0, 0, VIRTUAL_WIDTH)
+    love.graphics.setColor(1, 1, 1, 1)
+    
     love.graphics.printf('Virus: ' .. #virus, 0, 20, VIRTUAL_WIDTH)
     love.graphics.printf('Damage: ' .. virusDamage, 0, 40, VIRTUAL_WIDTH)
 
