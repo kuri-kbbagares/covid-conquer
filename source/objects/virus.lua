@@ -14,7 +14,7 @@ virus.amount = math.random(minValueToSpawn, maxValueToSpawn)
 virus.radius = 20
 virus.damage = 0
 
-virus.speed = 500
+virus.speed = 1000
 virus.friction = 7.5
 
 virus.width = 15
@@ -119,8 +119,7 @@ function virus.draw()
 
     for i, v in ipairs(virus) do
         love.graphics.draw(gTextures['virus'], v.x - 20, v.y - 20)
-
-        love.graphics.circle('line', v.x, v.y, v.radius)
+    
     end
 end
 
