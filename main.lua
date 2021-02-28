@@ -25,7 +25,8 @@ function love.load(arg)
     ['medium_titleFont'] = love.graphics.newFont('fonts/titleFont.ttf', 50),
     ['smallFont'] = love.graphics.newFont('fonts/menuFont.ttf', 10),
     ['mediumFont'] = love.graphics.newFont('fonts/menuFont.ttf', 15),
-    ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30)
+    ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30),
+    ['large1Font'] = love.graphics.newFont('fonts/menuFont.ttf',50)
   }
 
 
