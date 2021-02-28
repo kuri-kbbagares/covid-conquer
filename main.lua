@@ -44,7 +44,7 @@ function love.load(arg)
     ['bgm'] = love.audio.newSource('sounds/bgm.wav', 'stream'),
     --Played On-trigger
     ['click'] = love.audio.newSource('sounds/click.wav', 'static'),
-    ['on-death'] = love.audio.newSource('sounds/death.wav', 'static'),
+    ['on-death'] = love.audio.newSource('sounds/gameover.wav', 'static'),
   }
   
   gSounds['bgm']:setLooping(true) 
@@ -57,7 +57,8 @@ function love.load(arg)
     ['options'] = function () return OptionState() end,
     ['play'] = function () return PlayState() end
   }
-
+  
+  background = backDrop()
   gStateMachine:change('title')
   Player.load()
 
@@ -78,7 +79,7 @@ end
 
 function love.update(dt)
   gStateMachine:update(dt)
-
+  background:update(dt)
   Player.update(dt)
 
   love.keyboard.keysPressed = {}
@@ -86,7 +87,7 @@ end
 
 function love.draw()
   push:apply("start")
-
+  background:render()
   gStateMachine:render()
 
   push:apply("end")
