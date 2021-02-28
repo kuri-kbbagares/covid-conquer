@@ -120,17 +120,19 @@ function PlayState:render()
     love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.setColor(1, 1, 1, 1)
     
-    love.graphics.printf('Virus: ' .. #virus, 0, 20, VIRTUAL_WIDTH)
-    love.graphics.printf('Damage: ' .. virusDamage, 0, 40, VIRTUAL_WIDTH)
+    love.graphics.printf('Virus: ' .. #virus, 0, 40, VIRTUAL_WIDTH)
+    love.graphics.printf('Damage: ' .. virusDamage, 0, 60, VIRTUAL_WIDTH)
 
     love.graphics.printf('Player X: ' .. tostring(math.floor(Player.x)), 0, 100, VIRTUAL_WIDTH)
     love.graphics.printf('Player Y: ' .. tostring(math.floor(Player.y)), 0, 120, VIRTUAL_WIDTH)
 
     local mx, my = love.mouse.getPosition()
-    love.graphics.printf('Mouse X: ' .. mx, 0, 160, VIRTUAL_WIDTH)
-    love.graphics.printf('Mouse Y: ' .. my, 0, 180, VIRTUAL_WIDTH)
+    love.graphics.printf('Mouse X: ' .. mx, 0, 140, VIRTUAL_WIDTH)
+    love.graphics.printf('Mouse Y: ' .. my, 0, 160, VIRTUAL_WIDTH)
 
-    love.graphics.printf(math.floor(virus.increase) .. " secs", 0, 200, VIRTUAL_WIDTH)
+    love.graphics.setFont(gFonts['large1Font'])
+    love.graphics.setColor(1, 0, 0, 1)
+    love.graphics.printf(math.floor(virus.increase), 0, 50, VIRTUAL_WIDTH, 'center')
     --(BAGARES) used only for testing purpose
     --love.graphics.printf('maxVirusToSpawn: ' .. maxValueToSpawn, 0, 200, VIRTUAL_WIDTH)
     --love.graphics.printf('minVirusToSpawn: ' .. minValueToSpawn, 0, 220, VIRTUAL_WIDTH)
