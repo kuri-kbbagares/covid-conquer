@@ -70,7 +70,7 @@ end
 function Scoring:render()
     Particles:render()
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.rectangle('fill', 860, 0, 100, 30)
+    love.graphics.rectangle('fill', 880, 0, 80, 50)
     love.graphics.setColor(math.floor(self.color)/255, 0, 0, 255)
     love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.printf(self.score, 0, VIRTUAL_HEIGHT * 0.01, VIRTUAL_WIDTH, 'right')
