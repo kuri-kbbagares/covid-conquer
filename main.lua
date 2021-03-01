@@ -81,7 +81,6 @@ end
 function love.update(dt)
   gStateMachine:update(dt)
   background:update(dt)
-  Player.update(dt)
 
   love.keyboard.keysPressed = {}
 end

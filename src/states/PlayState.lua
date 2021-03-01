@@ -43,7 +43,7 @@ function PlayState:init()
                   end
                 },
 
-                {x = VIRTUAL_WIDTH * 0.26,
+                {x = VIRTUAL_WIDTH * 0.30,
                  y = VIRTUAL_HEIGHT * 0.7,
                  width = 70,
                  height = 30,
@@ -73,6 +73,7 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+
   if MENU == false then
     Scoring:update(dt)
 
@@ -99,6 +100,7 @@ end
 -- [Pandan] - If possible, change the color schemes in here
 function PlayState:render()
     background:render()
+    
     love.mouse.setCursor(self.cursor)
 
     Player.render()

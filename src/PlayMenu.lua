@@ -59,7 +59,7 @@ function PlayMenu:render()
         love.graphics.printf('Retry', self.clickScript[4].x, self.clickScript[4].y, VIRTUAL_WIDTH, 'left')
 
         love.graphics.setColor(self.clickScript[5].textcolor)
-        love.graphics.printf('Exit', 0, VIRTUAL_HEIGHT * 0.7, VIRTUAL_WIDTH * 0.75, 'right')
+        love.graphics.printf('Exit', self.clickScript[5].x, self.clickScript[5].y, VIRTUAL_WIDTH, 'left')
 
     end
 end

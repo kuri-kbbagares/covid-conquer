@@ -8,7 +8,7 @@ function Player.load()
     Player.ydelt = 0
     Player.xdelt = 0
 
-    Player.speed = 100
+    Player.speed = 200
     -- [Pandan] - I've come up an idea that we should make a range
     Player.radius = 75
 
@@ -114,6 +114,6 @@ function Player.render()
     --love.graphics.rectangle('fill', Player.x, Player.y, Player.width, Player.height)
     love.graphics.draw(gTextures['player_atlas'], gQuads['player'][frame], Player.x + 10, Player.y + 5, math.rad(frame_angle), 1, 1, 31, 31)
 
-    love.graphics.setColor(0,0,1,1)
+    love.graphics.setColor(1,1,1,1)
     love.graphics.circle('line', Player.x + (Player.width / 2), Player.y + (Player.height / 2), Player.radius)
 end

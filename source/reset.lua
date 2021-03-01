@@ -11,6 +11,7 @@ function reset()
 
     virusDamage = 0
     virus.wave = 0
+    virus.speed = 1000
 
     -- (BAGARES) constants for min value and max value of spawning veerus
     minValueToSpawn = 3
