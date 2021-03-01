@@ -72,7 +72,7 @@ function Scoring:render()
     love.graphics.setColor(1, 1, 1, 1)
 
     love.graphics.setColor(255, math.floor(self.color)/255, math.floor(self.color)/255, 255)
-    love.graphics.setFont(gFonts['mediumFont'])
+    love.graphics.setFont(gFonts['largeFont'])
     love.graphics.printf(self.score, 0, VIRTUAL_HEIGHT * 0.01, VIRTUAL_WIDTH, 'right')
 
 
