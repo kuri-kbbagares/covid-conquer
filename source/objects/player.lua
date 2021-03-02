@@ -12,24 +12,25 @@ function Player.load()
     -- [Pandan] - I've come up an idea that we should make a range
     Player.radius = 75
 
+    Player.frame = 1
+    Player.frame_Row = 1
+    Player.last_Frame = 9
+    Player.angle = 0
+
+
 end
 
 function Player.update(dt)
+    --(BAGARES) variables needed to change animation
     -- North
     if love.keyboard.isDown(string.lower(playerUp)) then
         Player.ydelt = -Player.speed
-         --(Bagares) Animation Parameters (UP ANIMATION)
-        frame_angle = 0
-        frame = frame + 1
-        if frame > num_of_frames then frame = 1 end
-    
+
+
     -- South
     elseif love.keyboard.isDown(string.lower(playerDown)) then
         Player.ydelt = Player.speed
-         --(Bagares) Animation Parameters (DOWN ANIMATION)
-        frame_angle = 180
-        frame = frame - 1
-        if frame <= 0 then frame = 8 end
+
 
     else
         -- Player Idle State
@@ -39,17 +40,11 @@ function Player.update(dt)
     -- West
     if love.keyboard.isDown(string.lower(playerLeft)) then
         Player.xdelt = -Player.speed
-        --(Bagares) Animation Parameters
-        frame_angle = 270
-        frame = frame + 1
-        if frame > num_of_frames then frame = 1 end
+
     -- East
     elseif love.keyboard.isDown(string.lower(playerRight)) then
         Player.xdelt = Player.speed
-        --(Bagares) Animation Parameters
-        frame_angle = 90
-        frame = frame - 1
-        if frame <= 0 then frame = 8 end
+
     else
         -- Player Idle State
         Player.xdelt = 0
@@ -58,30 +53,78 @@ function Player.update(dt)
     -- South East
     if Player.xdelt > 0 and Player.ydelt > 0 then
         --(Bagares) Animation Parameters
-        frame_angle = 135
-        frame = frame + 1
-        if frame > num_of_frames then frame = 1 end
+        Player.last_Frame = 36
+        Player.frame = Player.frame + 1
 
+        Player.frame_Row = Player.frame + 27
+    
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
+        
     -- North west
     elseif Player.xdelt < 0 and Player.ydelt < 0 then
         --(Bagares) Animation Parameters
-        frame_angle = 315
-        frame = frame + 1
-        if frame > num_of_frames then frame = 1 end
+        Player.last_Frame = 18
+        Player.frame = Player.frame + 1
+
+        Player.frame_Row = Player.frame + 9
+    
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
   
     -- South West
     elseif Player.xdelt < 0 and Player.ydelt > 0 then
         --(Bagares) Animation Parameters
-        frame_angle = 225
-        frame = frame + 1
-        if frame > num_of_frames then frame = 1 end
+        Player.last_Frame = 18
+        Player.frame = Player.frame + 1
+
+        Player.frame_Row = Player.frame + 9
+    
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
 
     -- North East
     elseif Player.xdelt > 0 and Player.ydelt < 0 then
         --(Bagares) Animation Parameters
-        frame_angle = 45
-        frame = frame + 1
-        if frame > num_of_frames then frame = 1 end
+        Player.last_Frame = 36
+        Player.frame = Player.frame + 1
+
+        Player.frame_Row = Player.frame + 27
+    
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
+
+    elseif Player.xdelt > 0 then
+        --(Bagares) Animation Parameters
+        Player.last_Frame = 36
+        Player.frame = Player.frame + 1
+
+        Player.frame_Row = Player.frame + 27
+    
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
+
+    elseif Player.xdelt < 0 then
+        Player.xdelt = -Player.speed
+        --(Bagares) Animation Parameters (UP ANIMATION)
+        Player.last_Frame = 18
+        Player.frame = Player.frame + 1
+
+        Player.frame_Row = Player.frame + 9
+    
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
+
+    elseif Player.ydelt > 0 then
+        Player.last_Frame = 27
+        Player.frame = Player.frame + 1
+
+        Player.frame_Row = Player.frame + 18
+    
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
+
+    elseif Player.ydelt < 0 then
+        --(Bagares) Animation Parameters (UP ANIMATION)
+        Player.last_Frame = 9
+        Player.frame = Player.frame + 1
+        Player.frame_Row = Player.frame
+
+        if Player.frame_Row >= Player.last_Frame then Player.frame = 1 end
+
     end
 
     -- [[ Change in delta and computing it to Player.x and Player.y ]]
@@ -109,10 +152,11 @@ function Player.update(dt)
     end
 end
 
+
 function Player.render()
     --love.graphics.setColor(0,0,0,1)
     --love.graphics.rectangle('fill', Player.x, Player.y, Player.width, Player.height)
-    love.graphics.draw(gTextures['player_atlas'], gQuads['player'][frame], Player.x + 10, Player.y + 5, math.rad(frame_angle), 1, 1, 31, 31)
+    love.graphics.draw(gTextures['player_atlas'], gQuads['player'][Player.frame_Row], Player.x + 10, Player.y + 5, math.rad(0), 1.5, 1.5, 31, 31)
 
     love.graphics.setColor(1,1,1,1)
     love.graphics.circle('line', Player.x + (Player.width / 2), Player.y + (Player.height / 2), Player.radius)
