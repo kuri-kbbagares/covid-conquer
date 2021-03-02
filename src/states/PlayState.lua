@@ -96,8 +96,6 @@ function PlayState:update(dt)
   end
 end
 
--- [Pandan] - Every allocations I used was percentages of WINDOW_WIDTH and a WINDOW_HEIGHT. Feel free to change this if this is not efficient
--- [Pandan] - If possible, change the color schemes in here
 function PlayState:render()
     background:render()
     
@@ -135,9 +133,6 @@ function PlayState:render()
     love.graphics.setFont(gFonts['large1Font'])
     love.graphics.setColor(1, 0, 0, 1)
     love.graphics.printf(math.floor(virus.increase), 0, 50, VIRTUAL_WIDTH, 'center')
-    --(BAGARES) used only for testing purpose
-    --love.graphics.printf('maxVirusToSpawn: ' .. maxValueToSpawn, 0, 200, VIRTUAL_WIDTH)
-    --love.graphics.printf('minVirusToSpawn: ' .. minValueToSpawn, 0, 220, VIRTUAL_WIDTH)
     
     love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.setColor(1, 1, 1, 1)
