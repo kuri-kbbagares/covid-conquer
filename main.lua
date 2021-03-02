@@ -37,7 +37,7 @@ function love.load(arg)
   }
   
   gQuads = {
-    ['player'] = GenerateQuads(gTextures['player_atlas'], 64, 64)
+    ['player'] = GenerateQuads(gTextures['player_atlas'], 64, 62)
   }
   
   gSounds = {
