@@ -143,7 +143,7 @@ function PlayState:render()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.printf('Covid Conquer - BETA', 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'right')
 
-    love.graphics.setColor(0,0,0,1)
+    love.graphics.setColor(1,0,0,1)
 
     love.graphics.rectangle('fill', self.clickScript['option'].x, self.clickScript['option'].y, self.clickScript['option'].width, self.clickScript['option'].height)
 
