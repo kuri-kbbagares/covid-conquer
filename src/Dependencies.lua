@@ -1,7 +1,5 @@
 --DEPENDENCIES
 
-
-
 --In library directory
 push = require 'library/push'
 Class = require 'library/class'
@@ -10,8 +8,10 @@ Class = require 'library/class'
 require 'source/constants'
 
 --In objects directory
+require 'source/objects/particles'
 require 'source/objects/player'
 require 'source/objects/Virus'
+require 'source/objects/background'
 
 --In controls directory
 require 'source/controls/mouse'
@@ -23,7 +23,7 @@ require 'src/StateMachine'
 require 'src/Util'
 
 require 'src/states/BaseState'
-require 'src/states/MenuState'
+require 'src/states/TitleState'
 require 'src/states/OptionState'
 require 'src/states/PlayState'
 

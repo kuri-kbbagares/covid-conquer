@@ -1,12 +1,11 @@
 PlayState = Class{__includes = BaseState}
 
-
 function PlayState:init()
   MENU_PLAY = true
   MENU = false
   SPAWN = false
 
-  self.cursor = love.mouse.getSystemCursor("crosshair")
+  self.cursor = love.mouse.getSystemCursor("no")
   self.clickScript = {
     ['option'] = {x = VIRTUAL_WIDTH * 0.02,
                   y = VIRTUAL_HEIGHT * 0.02,
@@ -40,11 +39,11 @@ function PlayState:init()
 
                  script = function() 
                     MENU_PLAY = false
-                    gStateMachine:change('menu') 
+                    gStateMachine:change('title') 
                   end
                 },
 
-                {x = VIRTUAL_WIDTH * 0.26,
+                {x = VIRTUAL_WIDTH * 0.30,
                  y = VIRTUAL_HEIGHT * 0.7,
                  width = 70,
                  height = 30,
@@ -64,7 +63,7 @@ function PlayState:init()
                 script = function()
                   SPAWN = false
                   reset()
-                  gStateMachine:change('menu')
+                  gStateMachine:change('title')
                 end},
               }
 
@@ -74,24 +73,11 @@ function PlayState:init()
 end
 
 function PlayState:update(dt)
+
   if MENU == false then
     Scoring:update(dt)
 
-    if love.keyboard.isDown(string.lower(playerLeft)) then
-      Player.xdelt = -PLAYER_SPEED
-    elseif love.keyboard.isDown(string.lower(playerRight)) then
-      Player.xdelt = PLAYER_SPEED
-    else
-      Player.xdelt = 0
-    end
-
-    if love.keyboard.isDown(string.lower(playerUp)) then
-      Player.ydelt = -PLAYER_SPEED
-    elseif love.keyboard.isDown(string.lower(playerDown)) then
-      Player.ydelt = PLAYER_SPEED
-    else
-      Player.ydelt = 0
-    end
+    Player.update(dt)
 
     if love.keyboard.wasPressed('escape') then
       MENU = not MENU
@@ -107,15 +93,17 @@ function PlayState:update(dt)
 
   else
     PlayMenu:update(dt)
-
   end
 end
 
 -- [Pandan] - Every allocations I used was percentages of WINDOW_WIDTH and a WINDOW_HEIGHT. Feel free to change this if this is not efficient
 -- [Pandan] - If possible, change the color schemes in here
 function PlayState:render()
-    love.graphics.clear(245/255, 255/255, 255/255, 255/255)
+    background:render()
+    
     love.mouse.setCursor(self.cursor)
+
+    Player.render()
 
     if SPAWN == true then
       virusRender()
@@ -124,26 +112,35 @@ function PlayState:render()
       love.graphics.setColor(0, 0, 0, 1)
       love.graphics.printf('Press Enter to fight', 0, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'center')
       love.graphics.setColor(1, 0, 0, 1)
-      love.graphics.printf('Enter', VIRTUAL_WIDTH * 0.39, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'left')
+      love.graphics.printf('Enter', VIRTUAL_WIDTH * 0.445, VIRTUAL_HEIGHT * 0.70, VIRTUAL_WIDTH, 'left')
+      love.graphics.setColor(0,0,0,0)
     end
 
-    Player.render()
     Scoring:render()
     displayClickCount(click_count)
 
     love.graphics.setFont(gFonts['mediumFont'])
-    love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.printf('Click Count: ' .. click_count, 0, 0, VIRTUAL_WIDTH)
-    love.graphics.printf('Virus: ' .. #virus, 0, 20, VIRTUAL_WIDTH)
-    love.graphics.printf('Damage: ' .. virusDamage, 0, 40, VIRTUAL_WIDTH)
+    love.graphics.setColor(1, 1, 1, 1)
+    
+    love.graphics.printf('Virus: ' .. #virus, 0, 40, VIRTUAL_WIDTH)
+    love.graphics.printf('Damage: ' .. virusDamage, 0, 60, VIRTUAL_WIDTH)
 
     love.graphics.printf('Player X: ' .. tostring(math.floor(Player.x)), 0, 100, VIRTUAL_WIDTH)
     love.graphics.printf('Player Y: ' .. tostring(math.floor(Player.y)), 0, 120, VIRTUAL_WIDTH)
 
     local mx, my = love.mouse.getPosition()
-    love.graphics.printf('Mouse X: ' .. mx, 0, 160, VIRTUAL_WIDTH)
-    love.graphics.printf('Mouse Y: ' .. my, 0, 180, VIRTUAL_WIDTH)
+    love.graphics.printf('Mouse X: ' .. mx, 0, 140, VIRTUAL_WIDTH)
+    love.graphics.printf('Mouse Y: ' .. my, 0, 160, VIRTUAL_WIDTH)
 
+    love.graphics.setFont(gFonts['large1Font'])
+    love.graphics.setColor(1, 0, 0, 1)
+    love.graphics.printf(math.floor(virus.increase), 0, 50, VIRTUAL_WIDTH, 'center')
+    --(BAGARES) used only for testing purpose
+    --love.graphics.printf('maxVirusToSpawn: ' .. maxValueToSpawn, 0, 200, VIRTUAL_WIDTH)
+    --love.graphics.printf('minVirusToSpawn: ' .. minValueToSpawn, 0, 220, VIRTUAL_WIDTH)
+    
+    love.graphics.setFont(gFonts['mediumFont'])
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.printf('Covid Conquer - BETA', 0, VIRTUAL_HEIGHT - 20, VIRTUAL_WIDTH, 'right')
 
     love.graphics.setColor(0,0,0,1)
@@ -167,10 +164,16 @@ function PlayState:mouse(x, y, button)
     -- If LMB was clicked
     if button == 1 then
         -- Pause Button
-      if virusDamage < 1000 then
-        if x > self.clickScript['option'].x and x < self.clickScript['option'].x + self.clickScript['option'].width and y > self.clickScript['option'].y and y < self.clickScript['option'].y + self.clickScript['option'].height then
-          MENU = not MENU
-        end
+      if virusDamage < DEATH then
+          local clickscript = self.clickScript['option']
+          local cX = clickscript.x
+          local cY = clickscript.y
+          local width = clickscript.width
+          local height = clickscript.height
+          
+          if x > cX and x < cX + width and y > cY and y < cY + height then
+            clickscript.script()
+          end
       end
 
       if MENU == true then
@@ -178,11 +181,13 @@ function PlayState:mouse(x, y, button)
 
       else
         -- To get a score and kill virus
+        gSounds['click']:play()
         Scoring:mousepressed(x, y)
-
       end
         click_count = click_count + 1
-
+        
     end
   end
 end
+
+

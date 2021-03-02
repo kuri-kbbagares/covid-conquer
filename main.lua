@@ -1,7 +1,7 @@
 require 'src/Dependencies' --All libraries that are require will be placed here
 
 
-function love.load()
+function love.load(arg)
   --Some Object Declaration
   math.randomseed(os.time())
 
@@ -25,20 +25,42 @@ function love.load()
     ['medium_titleFont'] = love.graphics.newFont('fonts/titleFont.ttf', 50),
     ['smallFont'] = love.graphics.newFont('fonts/menuFont.ttf', 10),
     ['mediumFont'] = love.graphics.newFont('fonts/menuFont.ttf', 15),
-    ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30)
+    ['largeFont'] = love.graphics.newFont('fonts/menuFont.ttf',30),
+    ['large1Font'] = love.graphics.newFont('fonts/menuFont.ttf',50)
   }
+
 
   gTextures = {
-    ['virus'] = love.graphics.newImage('graphics/veerus.png')
+    ['virus'] = love.graphics.newImage('graphics/veerus.png'),
+    ['player_atlas'] = love.graphics.newImage('graphics/player_atlas.png'),
+    ['particles'] = love.graphics.newImage('graphics/particle.png'),
   }
+  
+  gQuads = {
+    ['player'] = GenerateQuads(gTextures['player_atlas'], 64, 62)
+  }
+  
+  gSounds = {
+    --Constantly Playing
+    ['bgm'] = love.audio.newSource('sounds/bgm.wav', 'stream'),
+    --Played On-trigger
+    ['click'] = love.audio.newSource('sounds/click.wav', 'static'),
+    ['on-death'] = love.audio.newSource('sounds/gameover.wav', 'static'),
+  }
+  
+  gSounds['bgm']:setLooping(true) 
+  gSounds['on-death']:setLooping(false)
+  
+  gSounds['bgm']:play()
 
   gStateMachine = StateMachine{
-    ['menu'] = function () return MenuState() end,
+    ['title'] = function () return TitleState() end,
     ['options'] = function () return OptionState() end,
     ['play'] = function () return PlayState() end
   }
-
-  gStateMachine:change('menu')
+  
+  background = backDrop()
+  gStateMachine:change('title')
   Player.load()
 
   love.keyboard.keysPressed = {}
@@ -58,15 +80,14 @@ end
 
 function love.update(dt)
   gStateMachine:update(dt)
-
-  Player.update(dt)
+  background:update(dt)
 
   love.keyboard.keysPressed = {}
 end
 
 function love.draw()
   push:apply("start")
-
+  background:render()
   gStateMachine:render()
 
   push:apply("end")

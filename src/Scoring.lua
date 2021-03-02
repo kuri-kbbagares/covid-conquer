@@ -35,9 +35,10 @@ function Scoring:init()
     self.kill = 50
 
     -- Color Fading Script
-    self.color = 255
+    self.color = 0
     self.limit = VIRTUAL_WIDTH - 100 + Scoring.time
 
+    Particles:init()
 end
 
 function Scoring:update(dt)
@@ -58,44 +59,49 @@ function Scoring:update(dt)
     end
 
     -- Fade in color effect of self.score
-    if self.color > 0 then
-        self.color = math.floor(self.color - dt * 200)
+    if self.color < 255 then
+        self.color = math.floor(self.color + dt * 200)
     end
+
+    Particles:update(dt)
 
 end
 
 function Scoring:render()
-    love.graphics.setColor(math.floor(self.color)/255, 0, 0, 255)
+    Particles:render()
+    love.graphics.setColor(1, 1, 1, 1)
+
+    love.graphics.setColor(255, math.floor(self.color)/255, math.floor(self.color)/255, 255)
     love.graphics.setFont(gFonts['mediumFont'])
     love.graphics.printf(self.score, 0, VIRTUAL_HEIGHT * 0.01, VIRTUAL_WIDTH, 'right')
 
 
     if Scoring.combo >= 3 and Scoring.combo <= 7 then
-        love.graphics.setColor(0,0,0,1)
+        love.graphics.setColor(1,1,1,1)
         love.graphics.printf("Combo x2", 0, VIRTUAL_HEIGHT * 0.06, VIRTUAL_WIDTH, 'right')
 
         self.limit = VIRTUAL_WIDTH - 100 + Scoring.time
 
-        love.graphics.setColor(math.floor(self.color)/255, 0, 0, 255)
+        love.graphics.setColor(255, math.floor(self.color)/255, math.floor(self.color)/255, 255)
         love.graphics.line(self.limit, 2, VIRTUAL_WIDTH, 2)
 
     elseif Scoring.combo >= 8 and Scoring.combo <= 14 then
-        love.graphics.setColor(0,0,0,1)
+        love.graphics.setColor(1,1,1,1)
         love.graphics.printf("Combo x4", 0, VIRTUAL_HEIGHT * 0.06, VIRTUAL_WIDTH, 'right')
 
         self.limit = VIRTUAL_WIDTH - 100 + Scoring.time
 
-        love.graphics.setColor(math.floor(self.color)/255, 0, 0, 255)
+        love.graphics.setColor(255, math.floor(self.color)/255, math.floor(self.color)/255, 255)
         love.graphics.line(self.limit, 2, VIRTUAL_WIDTH, 2)
 
 
     elseif Scoring.combo >= 15 then
-        love.graphics.setColor(0,0,0,1)
+        love.graphics.setColor(1,1,1,1)
         love.graphics.printf("Combo x8", 0, VIRTUAL_HEIGHT * 0.06, VIRTUAL_WIDTH, 'right')
 
         self.limit = VIRTUAL_WIDTH - 100 + Scoring.time
         
-        love.graphics.setColor(math.floor(self.color)/255, 0, 0, 255)
+        love.graphics.setColor(255, math.floor(self.color)/255, math.floor(self.color)/255, 255)
         love.graphics.line(self.limit, 2, VIRTUAL_WIDTH, 2)
     end
 
@@ -118,7 +124,9 @@ function Scoring:mousepressed(x, y)
                 table.remove(virus, i)
 
                 -- Fade in color effect of self.score
-                self.color = 255
+                self.color = 0
+
+                Particles:spray(x, y)
 
                 Scoring.score = Scoring.score + self.kill
                 Scoring.combo = Scoring.combo + 1
