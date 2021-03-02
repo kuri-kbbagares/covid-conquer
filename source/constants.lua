@@ -9,7 +9,7 @@ VIRTUAL_WIDTH = 959
 click_count = 0
 virusDamage = 0
 
---(BAGARES) variables needed to change animation
+--Variables needed to change animation
 frame = 1
 num_of_frames = 8
 frame_angle = 0
