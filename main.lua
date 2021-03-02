@@ -13,7 +13,7 @@ function love.load(arg)
     vsync = false
   })
 
-  -- [Pandan] For Editing the Key Movements
+  -- For Key Movements
   playerUpOpen, playerDownOpen, playerLeftOpen, playerRightOpen = false, false, false, false
   playerUp = 'W'
   playerDown = 'S'
@@ -67,8 +67,7 @@ function love.load(arg)
 
 end
 
---[[(Bagares)Function1: This are the function/s to initiate a key in keyboard was pressed
-]]--
+--Function1: This are the function/s to initiate a key in keyboard was pressed
 function love.keypressed(key)
   love.keyboard.keysPressed[key] = true
   KeyBindings(key)
@@ -101,8 +100,6 @@ function love.mousepressed(x, y, button)
 end
 
 function displayClickCount(click_count)
-  --love.graphics.setColor(0, 0, 0, 1)
-  --love.graphics.printf('Click Count: ' .. tostring(click_count), 10, VIRTUAL_HEIGHT-20, VIRTUAL_WIDTH)
 end
 
 function KeyBindings(key)
