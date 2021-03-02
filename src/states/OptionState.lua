@@ -93,7 +93,7 @@ function OptionState:update(dt)
             if x > v.x and x < v.x + v.width and y > v.y and y < v.y + v.height then
                 self.clickScript[i].textcolor = {1,0,0,1}
             else
-                self.clickScript[i].textcolor = {0,0,0,1}
+                self.clickScript[i].textcolor = {1,1,1,1}
             end
         end
     end
@@ -104,7 +104,7 @@ function OptionState:render()
 
     love.graphics.setFont(gFonts['largeFont'])
 
-    love.graphics.setColor(0,0,0,1)
+    love.graphics.setColor(1,0,0,1)
     love.graphics.printf('Options', VIRTUAL_WIDTH * 0.1, VIRTUAL_HEIGHT * 0.1, VIRTUAL_WIDTH, 'left')
     love.graphics.printf('Movements', 0, VIRTUAL_HEIGHT * 0.20, VIRTUAL_WIDTH, 'center')
 
