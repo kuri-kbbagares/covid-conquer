@@ -1,16 +1,16 @@
 Virus = Class{}
 
--- (BAGARES) constants for min value and max value of spawning veerus
+-- Constants for min value and max value of spawning veerus
 minValueToSpawn = 3
 maxValueToSpawn = 5
 
---(BAGARES) Variables needed for virus to spawn
-virus = {} --(Bagares)Table1: for storing the number of virus
+
+virus = {} --Table1: for storing the number of virus
 virus.timeSpawn = 0
 virus.timerSpawnLimit = math.random(3,5)
 virus.amount = math.random(minValueToSpawn, maxValueToSpawn)
 
----(BAGARES) Virus Class Parameters
+-- Virus Class Parameters
 virus.radius = 20
 virus.damage = 0
 
@@ -30,7 +30,6 @@ function generateVirus(dt)
     virus.timeSpawn = virus.timeSpawn + dt
 
     -- Virus will increase and its speed every 30 seconds
-    -- It takes me time to figure this out because lua's modulus(%) was so bad
     virus.increase = virus.increase - dt
     if math.floor(virus.increase) == 0 then
         minValueToSpawn = minValueToSpawn + 3
@@ -45,7 +44,6 @@ function generateVirus(dt)
     if virus.timeSpawn > virus.timerSpawnLimit then
         for i = 1, virus.amount do
 
-            -- [Pandan] Is this should be the spawn behavior for our virus?
             local spawnLocation = math.random(1, 4)
 
             -- Spawn on Top
@@ -98,7 +96,7 @@ function virus.AI(dt)
         end
 
         if math.floor(v.x)  == math.floor(Player.x) and math.floor(v.y) == math.floor(Player.y)  then
-            -- (BAGARES) Damages Player
+            --Damages Player
             virusDamage = virusDamage + 1
         end
     end
