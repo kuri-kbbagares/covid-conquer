@@ -108,11 +108,6 @@ function OptionState:render()
     love.graphics.printf('Options', VIRTUAL_WIDTH * 0.1, VIRTUAL_HEIGHT * 0.1, VIRTUAL_WIDTH, 'left')
     love.graphics.printf('Movements', 0, VIRTUAL_HEIGHT * 0.20, VIRTUAL_WIDTH, 'center')
 
-    -- Buttons
-    -- (Place anything possible for options)
-    -- love.graphics.setColor(1,1,0,1)
-    -- love.graphics.rectangle('fill', self.clickScript[1].x, self.clickScript[1].y, 90, 40)
-
     love.graphics.setColor(self.clickScript[1].textcolor)
     love.graphics.printf('Up: ' .. string.upper(playerUp), self.clickScript[1].x, self.clickScript[1].y, VIRTUAL_WIDTH, 'left')
 
@@ -124,10 +119,6 @@ function OptionState:render()
 
     love.graphics.setColor(self.clickScript[4].textcolor)
     love.graphics.printf('Right: ' .. string.upper(playerRight), self.clickScript[4].x, self.clickScript[4].y, VIRTUAL_WIDTH, 'left')
-
-    -- Exit button
-    -- love.graphics.setColor(1,1,0,0)
-    -- love.graphics.rectangle('fill', WINDOW_WIDTH * 0.76, WINDOW_HEIGHT * 0.80, 90, 40)
 
     love.graphics.setColor(self.clickScript['exit'].textcolor)
     love.graphics.printf('Exit', 0, VIRTUAL_HEIGHT * 0.80, VIRTUAL_WIDTH * 0.85, 'right')
